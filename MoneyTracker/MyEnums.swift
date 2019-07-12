@@ -9,24 +9,33 @@
 import Foundation
 import UIKit
 
+struct JoiningDetail {
+    var member: Member?
+    var joiningDate: Date?
+}
+
 enum CashOrCheque{
     case cash
-    case cheque(number: String)
+    case cheque(number: String, time: Date, remainderUUID: String)
     
-    var inString: String{
+    var inString: [String]{
         switch self {
         case .cash:
-            return "cash"
-        case let .cheque(number: num):
-            return "cheque number is \(num)"
+            return ["cash"]
+        case let .cheque(number: num, time: time, remainderUUID: remainderString):
+            return [num, time.description, remainderString]
         }
     }
-    
 }
 
 enum CreditOrDebit: String{
     case credit
     case debit
+}
+
+struct Cheque {
+    static let timeHour = 8
+    static let timeMin = 30
 }
 
 struct VCs {
@@ -44,6 +53,8 @@ struct VCs {
     static let selectedMemberDetailVC = "selectedMemberDetailVC"
     static let memberTransactionDetailInGroupVC = "memberTransactionDetailInGroupVC"
     static let newTransactionInVC = "newTransactionInVC"
+    static let selectedTransactionDetailTVC = "selectedTransactionDetailTVC"
+    static let editMemberViewController = "editMemberViewController"
 }
 
 struct Segues {

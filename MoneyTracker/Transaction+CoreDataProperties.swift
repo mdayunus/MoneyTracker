@@ -2,7 +2,7 @@
 //  Transaction+CoreDataProperties.swift
 //  MoneyTracker
 //
-//  Created by Mohammad Yunus on 01/07/19.
+//  Created by Mohammad Yunus on 03/07/19.
 //  Copyright © 2019 simpleApp. All rights reserved.
 //
 //
@@ -18,12 +18,12 @@ extension Transaction {
     }
 
     @NSManaged public var amount: Double
+    @NSManaged public var cashOrCheque: [String]
+    @NSManaged public var creditOrDebit: String
     @NSManaged public var id: String
     @NSManaged public var madeAt: Date
-    @NSManaged public var cashOrCheque: String
-    @NSManaged public var creditOrDebit: String
     @NSManaged public var noteOrPurpose: String
-    @NSManaged public var byMember: Member
+    @NSManaged public var byMember: MemberInfo
     @NSManaged public var inGroup: Group
 
 }

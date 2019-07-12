@@ -54,30 +54,40 @@ class AddNewMemberViewController: UIViewController {
         if emailTextField.text!.isEmpty || nameTextField.text!.isEmpty{
             Alert.textFieldIsEmpty(name: emailTextField, nameTextField, on: self)
         }else{
-            guard let defaultImageData = UIImage(named: "cash")?.pngData() else{return}
-            guard let container = container else{return}
-            let nm = Member(context: container.viewContext)
-            nm.createdAt = Date()
-            nm.emailID = emailTextField.text!
-            nm.id = UUID().uuidString
-            nm.imageData = imageData ?? defaultImageData
-            nm.name = nameTextField.text!
-            nm.lastEditedAt = Date()
-            nm.addToInGroup(group!)
-            if container.viewContext.hasChanges{
-                do{
-                    try container.viewContext.save()
-                }catch{
-                    fatalError()
+            if emailTextField.text!.validateEmail(){
+                guard let defaultImageData = UIImage(named: "cash")?.pngData() else{return}
+                guard let container = container else{return}
+                let nm = Member(context: container.viewContext)
+                nm.createdAt = Date()
+                nm.emailID = emailTextField.text!
+                nm.id = UUID().uuidString
+                nm.imageData = imageData ?? defaultImageData
+                nm.lastEditedAt = Date()
+                nm.name = nameTextField.text!
+                let nd = MemberInfo(context: container.viewContext)
+                nd.joiningDate = Date()
+                nd.position = "member hai"
+                nd.member = nm
+                nd.ofGroup = selectedGroup!
+                nd.transactions = []
+                if container.viewContext.hasChanges{
+                    do{
+                        try container.viewContext.save()
+                    }catch{
+                        fatalError()
+                    }
                 }
+                navigationController?.popViewController(animated: true)
+            }else{
+                print("invalid email")
             }
-            navigationController?.popViewController(animated: true)
+            
         }
     }
     
     var container = AppDelegate.container
     
-    var group: Group?
+    var selectedGroup: Group?
     
     lazy var imagePicker = UIImagePickerController()
     
@@ -120,5 +130,12 @@ extension AddNewMemberViewController: UIImagePickerControllerDelegate, UINavigat
             imageData = image.jpegData(compressionQuality: 40)
         }
         picker.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension String{
+        func validateEmail() -> Bool{
+            let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+            return NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: self)
     }
 }

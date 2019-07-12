@@ -2,7 +2,7 @@
 //  Group+CoreDataProperties.swift
 //  MoneyTracker
 //
-//  Created by Mohammad Yunus on 01/07/19.
+//  Created by Mohammad Yunus on 03/07/19.
 //  Copyright © 2019 simpleApp. All rights reserved.
 //
 //
@@ -19,43 +19,43 @@ extension Group {
 
     @NSManaged public var createdAt: Date
     @NSManaged public var id: String
-    @NSManaged public var name: String
     @NSManaged public var lastEditedAt: Date
-    @NSManaged public var groupMember: NSSet
-    @NSManaged public var groupTransaction: NSSet
+    @NSManaged public var name: String
+    @NSManaged public var membersInfo: NSSet
+    @NSManaged public var transactions: NSSet
 
 }
 
-// MARK: Generated accessors for groupMember
+// MARK: Generated accessors for membersInfo
 extension Group {
 
-    @objc(addGroupMemberObject:)
-    @NSManaged public func addToGroupMember(_ value: Member)
+    @objc(addMembersInfoObject:)
+    @NSManaged public func addToMembersInfo(_ value: MemberInfo)
 
-    @objc(removeGroupMemberObject:)
-    @NSManaged public func removeFromGroupMember(_ value: Member)
+    @objc(removeMembersInfoObject:)
+    @NSManaged public func removeFromMembersInfo(_ value: MemberInfo)
 
-    @objc(addGroupMember:)
-    @NSManaged public func addToGroupMember(_ values: NSSet)
+    @objc(addMembersInfo:)
+    @NSManaged public func addToMembersInfo(_ values: NSSet)
 
-    @objc(removeGroupMember:)
-    @NSManaged public func removeFromGroupMember(_ values: NSSet)
+    @objc(removeMembersInfo:)
+    @NSManaged public func removeFromMembersInfo(_ values: NSSet)
 
 }
 
-// MARK: Generated accessors for groupTransaction
+// MARK: Generated accessors for transactions
 extension Group {
 
-    @objc(addGroupTransactionObject:)
-    @NSManaged public func addToGroupTransaction(_ value: Transaction)
+    @objc(addTransactionsObject:)
+    @NSManaged public func addToTransactions(_ value: Transaction)
 
-    @objc(removeGroupTransactionObject:)
-    @NSManaged public func removeFromGroupTransaction(_ value: Transaction)
+    @objc(removeTransactionsObject:)
+    @NSManaged public func removeFromTransactions(_ value: Transaction)
 
-    @objc(addGroupTransaction:)
-    @NSManaged public func addToGroupTransaction(_ values: NSSet)
+    @objc(addTransactions:)
+    @NSManaged public func addToTransactions(_ values: NSSet)
 
-    @objc(removeGroupTransaction:)
-    @NSManaged public func removeFromGroupTransaction(_ values: NSSet)
+    @objc(removeTransactions:)
+    @NSManaged public func removeFromTransactions(_ values: NSSet)
 
 }

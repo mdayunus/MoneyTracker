@@ -30,6 +30,7 @@ class AllMemberViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.title = "All Members"
         getMember()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "members: \(memberCount)", style: .plain, target: self, action: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(getMember), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
     
@@ -37,13 +38,14 @@ class AllMemberViewController: UIViewController {
     
     var container = AppDelegate.container
     
-    var group: Group?
+    var memberCount = 0
 
 }
 
 extension AllMemberViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        memberCount = frc?.sections?[section].objects?.count ?? 0
         return frc?.sections?[section].objects?.count ?? 0
         }
     

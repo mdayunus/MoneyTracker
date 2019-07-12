@@ -10,6 +10,8 @@ import UIKit
 
 class MemberTransactionDetailInGroupViewController: UIViewController {
     
+    
+    
     @IBOutlet weak var MemberTransactionDetailTableView: UITableView!{
         didSet{
             MemberTransactionDetailTableView.delegate = self
@@ -19,51 +21,51 @@ class MemberTransactionDetailInGroupViewController: UIViewController {
     
     @objc func createNewTransaction(){
         if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.newTransactionInVC) as? NewTransactionInViewController{
-            dvc.selectedMember = selectedMember
+            dvc.selectedMemberInfo = selectedMemberInfo
             dvc.selectedGroup = selectedGroup
             navigationController?.show(dvc, sender: self)
         }
     }
     
-    @objc func getTransactionData(){
-        guard let transactionSet = selectedGroup?.groupTransaction as? Set<Transaction> else{return}
-        let ta = Array(transactionSet)
-        transactions = ta.filter({$0.byMember == selectedMember!})
+    @objc func getTransations(){
+        guard let tset = selectedMemberInfo?.transactions as? Set<Transaction> else{return}
+        allTransactions = Array(tset)
         MemberTransactionDetailTableView.reloadData()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        getTransactionData()
+        getTransations()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createNewTransaction))
-        NotificationCenter.default.addObserver(self, selector: #selector(getTransactionData), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
+        navigationItem.title = selectedGroup?.name
+        NotificationCenter.default.addObserver(self, selector: #selector(getTransations), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
     
+    var allTransactions: [Transaction]?
+    var selectedMemberInfo: MemberInfo!
     var selectedGroup: Group?
-    var selectedMember: Member?
-    var transactions = [Transaction]()
 
 }
 extension MemberTransactionDetailInGroupViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return transactions.count
+        return allTransactions?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = Bundle.main.loadNibNamed("TransactionCell", owner: self, options: nil)?.first as? TransactionCell
-        cell?.userImageView.image = UIImage(data: transactions[indexPath.row].byMember.imageData)
-        cell?.memberName.text = transactions[indexPath.row].byMember.name
-        if transactions[indexPath.row].creditOrDebit == CreditOrDebit.debit.rawValue{
+        cell?.userImageView.image = UIImage(data: (allTransactions?[indexPath.row].byMember.member.imageData)!)
+        cell?.memberName.text = allTransactions?[indexPath.row].byMember.member.name
+        if allTransactions?[indexPath.row].creditOrDebit == CreditOrDebit.debit.rawValue{
             cell?.amount.textColor = UIColor.red
         }
-        cell?.madeAt.text = transactions[indexPath.row].madeAt.description
-        if transactions[indexPath.row].cashOrCheque == CashOrCheque.cash.inString{
+        cell?.madeAt.text = allTransactions?[indexPath.row].madeAt.description
+        if allTransactions?[indexPath.row].cashOrCheque == CashOrCheque.cash.inString{
             cell?.cocImageView.image = #imageLiteral(resourceName: "money")
         }else{
             cell?.cocImageView.image = #imageLiteral(resourceName: "check book")
         }
-        cell?.amount.text = "\(transactions[indexPath.row].amount)"
-        cell?.reason.text = transactions[indexPath.row].noteOrPurpose
+        cell?.amount.text = "\(allTransactions![indexPath.row].amount)"
+        cell?.reason.text = allTransactions?[indexPath.row].noteOrPurpose
         return cell!
     }
     
@@ -71,5 +73,11 @@ extension MemberTransactionDetailInGroupViewController: UITableViewDelegate, UIT
         return 86.5
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.selectedTransactionDetailTVC) as? SelectedTransactionDetailTableViewController{
+            dvc.selectedTransaction = allTransactions?[indexPath.row]
+            navigationController?.show(dvc, sender: self)
+        }
+    }
     
 }

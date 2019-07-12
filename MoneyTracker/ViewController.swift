@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     
     @objc func getGroupData(){
         let request = Group.createFetchRequest()
-        request.sortDescriptors = [ NSSortDescriptor(key: "createdAt", ascending: true)]
+        request.sortDescriptors = [ NSSortDescriptor(key: "lastEditedAt", ascending: true)]
         guard let container = container else{return}
         frcGroup = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         do{
@@ -52,9 +52,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = groupTableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath)
-        let obj = frcGroup?.object(at: indexPath)
-        cell.textLabel?.text = obj?.name
-        cell.detailTextLabel?.text = obj?.createdAt.description
+        if let obj = frcGroup?.object(at: indexPath){
+                
+            cell.textLabel?.text = obj.name
+            cell.detailTextLabel?.text = "created on: \(obj.createdAt.DateInString)"
+        }
         return cell
     }
     
@@ -75,4 +77,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     
+}
+extension Date{
+    var DateInString: String{
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter.string(from: self)
+    }
 }

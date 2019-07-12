@@ -23,19 +23,20 @@ class AllExceptMemberViewController: UIViewController {
         
         let req = Member.createFetchRequest()
         guard let result = try? container?.viewContext.fetch(req) else{return}
-        guard let mig = membersInGroup else{return}
+        guard let miig = membersInfoInGroup else{return}
+        let mig  = miig.map({$0.member})
         allExceptMembers = result.filter({element in
             return !mig.contains(element)
         })
     }
     
-    var frc: NSFetchedResultsController<Member>?
+    var frc: NSFetchedResultsController<MemberInfo>?
     
     var container = AppDelegate.container
     
-    var group: Group?
+    var selectedGroup: Group?
     
-    var membersInGroup: [Member]?
+    var membersInfoInGroup: [MemberInfo]?
     
     var allExceptMembers = [Member]()
     
@@ -55,10 +56,14 @@ extension AllExceptMemberViewController: UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let grp = group else{return}
+        guard let group = selectedGroup, let container = container else{return}
         let member = allExceptMembers[indexPath.row]
-        member.addToInGroup(grp)
-        guard let container = container else{return}
+        let mi = MemberInfo(context: container.viewContext)
+        mi.joiningDate = Date()
+        mi.position = "some position"
+        mi.member = member
+        mi.ofGroup = group
+        mi.transactions = []
         if container.viewContext.hasChanges{
             print("saving")
             do{

@@ -10,6 +10,12 @@ import UIKit
 import CoreData
 
 class NewTransactionInViewController: UIViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    let cdp = UIDatePicker()
 
     @IBOutlet weak var amountTextField: UITextField!{
         didSet{
@@ -49,6 +55,9 @@ class NewTransactionInViewController: UIViewController {
     
     
     @IBAction func saveAction(_ sender: UIButton) {
+        guard let member = selectedMemberInfo else{ Alert.zeroMemberInGroup(on: self, with: UIAlertAction(title: "tryagain", style: .default, handler: nil))
+            return
+        }
         if amountTextField.text!.isEmpty || noteOrPurpose.text!.isEmpty{
             Alert.textFieldIsEmpty(name: amountTextField, noteOrPurpose, on: self)
         }else{
@@ -56,21 +65,29 @@ class NewTransactionInViewController: UIViewController {
                 guard let container = container else{return}
                 let nt = Transaction(context: container.viewContext)
                 nt.amount = amount
-                nt.id = UUID().uuidString
-                nt.madeAt = Date()
                 if cashOrCheque.isOn{
                     nt.cashOrCheque = CashOrCheque.cash.inString
                 }else{
-                    nt.cashOrCheque = CashOrCheque.cheque(number: "123").inString
+                    
+                    //make changes here remove datecomp and use calender
+                    var dc = DateComponents()
+                    dc.calendar = cdp.calendar
+                    dc.hour = Cheque.timeHour
+                    dc.minute = Cheque.timeMin
+                    let cal = Calendar.current.date(from: dc)
+                    nt.cashOrCheque = CashOrCheque.cheque(number: "1234", time: cal!, remainderUUID: "rmstr").inString
                 }
                 if inOrOut.isOn{
                     nt.creditOrDebit = CreditOrDebit.debit.rawValue
                 }else{
                     nt.creditOrDebit = CreditOrDebit.credit.rawValue
                 }
+                nt.id = UUID().uuidString
+                nt.madeAt = Date()
                 nt.noteOrPurpose = noteOrPurpose.text!
-                nt.byMember = selectedMember!
+                nt.byMember = member
                 nt.inGroup = selectedGroup!
+//                selectedGroup?.addToTransactions(nt)
                 if container.viewContext.hasChanges{
                     do{
                         try container.viewContext.save()
@@ -87,7 +104,7 @@ class NewTransactionInViewController: UIViewController {
     
     var container = AppDelegate.container
     var selectedGroup: Group?
-    var selectedMember: Member?
+    var selectedMemberInfo: MemberInfo!
 
 }
 extension NewTransactionInViewController: UITextFieldDelegate{

@@ -19,7 +19,7 @@ class GroupMemberViewController: UIViewController {
     
     func gotoCreateNewMemberVC(){
         if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.addNewMemberVC) as? AddNewMemberViewController{
-            dvc.group = selectedGroup
+            dvc.selectedGroup = selectedGroup
             navigationController?.show(dvc, sender: self)
         }
     }
@@ -28,8 +28,8 @@ class GroupMemberViewController: UIViewController {
         //show list of all user
         print("all user")
         if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.allExceptMemberVC) as? AllExceptMemberViewController{
-            dvc.group = selectedGroup
-            dvc.membersInGroup = memberList
+            dvc.selectedGroup = selectedGroup
+            dvc.membersInfoInGroup = memberList
             navigationController?.show(dvc, sender: self)
         }
     }
@@ -49,19 +49,19 @@ class GroupMemberViewController: UIViewController {
 
     }
     @objc func getMember(){
-        guard let members = selectedGroup?.groupMember as? Set<Member> else{return}
+        guard let members = selectedGroup?.membersInfo as? Set<MemberInfo> else{return}
         memberList = Array(members)
+        navigationItem.title = "\(memberList.count) Members in \(selectedGroup!.name)"
         memberTableView.reloadData()
     }
     
     var selectedGroup: Group?
     
-    var memberList = [Member]()
+    var memberList = [MemberInfo]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let group = selectedGroup else{return}
-        navigationItem.title = "Members in \(group.name)"
+//        guard let group = selectedGroup else{return}
         getMember()
         NotificationCenter.default.addObserver(self, selector: #selector(getMember), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
@@ -76,16 +76,18 @@ extension GroupMemberViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = memberTableView.dequeueReusableCell(withIdentifier: Cells.memberCell, for: indexPath)
-        cell.textLabel?.text = memberList[indexPath.row].name
-        cell.detailTextLabel?.text = memberList[indexPath.row].emailID
-        cell.imageView?.image = UIImage(data: memberList[indexPath.row].imageData)
+        cell.textLabel?.text = memberList[indexPath.row].member.name
+        cell.detailTextLabel?.text = memberList[indexPath.row].joiningDate.DateInString
+        cell.imageView?.image = UIImage(data: memberList[indexPath.row].member.imageData)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.memberTransactionDetailInGroupVC) as? MemberTransactionDetailInGroupViewController{
-            dvc.selectedMember = memberList[indexPath.row]
+            dvc.selectedMemberInfo = memberList[indexPath.row]
             dvc.selectedGroup = selectedGroup
+            guard let alltransaction = memberList[indexPath.row].transactions as? Set<Transaction> else{return}
+            dvc.allTransactions = Array(alltransaction)
             navigationController?.show(dvc, sender: self)
         }
         

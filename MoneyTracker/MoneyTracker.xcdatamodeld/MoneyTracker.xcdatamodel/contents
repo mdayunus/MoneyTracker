@@ -5,8 +5,8 @@
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="lastEditedAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <relationship name="groupMember" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Member" inverseName="inGroup" inverseEntity="Member" syncable="YES"/>
-        <relationship name="groupTransaction" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="inGroup" inverseEntity="Transaction" syncable="YES"/>
+        <relationship name="membersInfo" toMany="YES" deletionRule="Nullify" destinationEntity="MemberInfo" inverseName="ofGroup" inverseEntity="MemberInfo" syncable="YES"/>
+        <relationship name="transactions" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="inGroup" inverseEntity="Transaction" syncable="YES"/>
     </entity>
     <entity name="Member" representedClassName=".Member" syncable="YES">
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -15,22 +15,29 @@
         <attribute name="imageData" attributeType="Binary" syncable="YES"/>
         <attribute name="lastEditedAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <relationship name="inGroup" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Group" inverseName="groupMember" inverseEntity="Group" syncable="YES"/>
-        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="byMember" inverseEntity="Transaction" syncable="YES"/>
+        <relationship name="info" toMany="YES" deletionRule="Nullify" destinationEntity="MemberInfo" inverseName="member" inverseEntity="MemberInfo" syncable="YES"/>
+    </entity>
+    <entity name="MemberInfo" representedClassName=".MemberInfo" syncable="YES">
+        <attribute name="joiningDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="position" attributeType="String" syncable="YES"/>
+        <relationship name="member" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="info" inverseEntity="Member" syncable="YES"/>
+        <relationship name="ofGroup" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="membersInfo" inverseEntity="Group" syncable="YES"/>
+        <relationship name="transactions" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="byMember" inverseEntity="Transaction" syncable="YES"/>
     </entity>
     <entity name="Transaction" representedClassName=".Transaction" syncable="YES">
         <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="cashOrCheque" attributeType="String" syncable="YES"/>
+        <attribute name="cashOrCheque" attributeType="Transformable" syncable="YES"/>
         <attribute name="creditOrDebit" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="madeAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="noteOrPurpose" attributeType="String" syncable="YES"/>
-        <relationship name="byMember" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="transactions" inverseEntity="Member" syncable="YES"/>
-        <relationship name="inGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="groupTransaction" inverseEntity="Group" syncable="YES"/>
+        <relationship name="byMember" maxCount="1" deletionRule="Nullify" destinationEntity="MemberInfo" inverseName="transactions" inverseEntity="MemberInfo" syncable="YES"/>
+        <relationship name="inGroup" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="transactions" inverseEntity="Group" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Group" positionX="-45" positionY="81" width="128" height="135"/>
-        <element name="Member" positionX="-63" positionY="-18" width="128" height="165"/>
-        <element name="Transaction" positionX="-54" positionY="36" width="128" height="165"/>
+        <element name="Group" positionX="117.4140625" positionY="-233.94140625" width="128" height="133"/>
+        <element name="Member" positionX="-352.09765625" positionY="-265.10546875" width="128" height="148"/>
+        <element name="Transaction" positionX="-91.1484375" positionY="21.40234375" width="128" height="163"/>
+        <element name="MemberInfo" positionX="-99" positionY="-72" width="128" height="120"/>
     </elements>
 </model>

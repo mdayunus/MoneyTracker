@@ -26,11 +26,9 @@ class GroupViewController: UIViewController {
     var selectedGroup: Group?
     
     var transactionList = [Transaction]()
-    
-//    var frcTransactions: NSFetchedResultsController<Transaction>?
 
     @objc func getTransactionDetail(){
-        guard let sgSet = selectedGroup?.groupTransaction as? Set<Transaction> else{return}
+        guard let sgSet = selectedGroup?.transactions as? Set<Transaction> else{return}
         transactionList = Array(sgSet)
         transactionsTableView.reloadData()
     }
@@ -47,8 +45,8 @@ class GroupViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case Segues.gotoAddNewTransaction:
-            if let dvc = segue.destination as? AddNewTransationViewController{
-                dvc.group = selectedGroup
+            if let dvc = segue.destination as? AddNewTransactionViewController{
+                dvc.selectedGroup = selectedGroup
             }
         default:
             print("error in segue in groupViewController")
@@ -61,21 +59,14 @@ extension GroupViewController: UITableViewDataSource, UITableViewDelegate{
         return transactionList.count
     }
     
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = transactionsTableView.dequeueReusableCell(withIdentifier: Cells.transactionCell, for: indexPath)
-//        cell.textLabel?.text = "\(transactionList[indexPath.row].amount)"
-//        cell.detailTextLabel?.text = "\(transactionList[indexPath.row].byMember.name)"
-//        return cell
-//    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = Bundle.main.loadNibNamed("TransactionCell", owner: self, options: nil)?.first as? TransactionCell
-        cell?.userImageView.image = UIImage(data: transactionList[indexPath.row].byMember.imageData)
-        cell?.memberName.text = transactionList[indexPath.row].byMember.name
+        cell?.userImageView.image = UIImage(data: transactionList[indexPath.row].byMember.member.imageData)
+        cell?.memberName.text = transactionList[indexPath.row].byMember.member.name
         if transactionList[indexPath.row].creditOrDebit == CreditOrDebit.debit.rawValue{
             cell?.amount.textColor = UIColor.red
         }
-        cell?.madeAt.text = transactionList[indexPath.row].madeAt.description
+        cell?.madeAt.text = transactionList[indexPath.row].madeAt.DateInString
         if transactionList[indexPath.row].cashOrCheque == CashOrCheque.cash.inString{
             cell?.cocImageView.image = #imageLiteral(resourceName: "money")
         }else{
@@ -84,6 +75,14 @@ extension GroupViewController: UITableViewDataSource, UITableViewDelegate{
         cell?.amount.text = "\(transactionList[indexPath.row].amount)"
         cell?.reason.text = transactionList[indexPath.row].noteOrPurpose
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //go to detail view and show detail of transaction
+        if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.selectedTransactionDetailTVC) as? SelectedTransactionDetailTableViewController{
+            dvc.selectedTransaction = transactionList[indexPath.row]
+            navigationController?.show(dvc, sender: self)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

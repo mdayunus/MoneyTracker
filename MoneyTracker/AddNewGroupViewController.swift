@@ -24,12 +24,12 @@ class AddNewGroupViewController: UIViewController {
         }else{
             guard let container = container else {return}
             let newGroup = Group(context: container.viewContext)
-            newGroup.name = nameTextField.text ?? Date().description
-            newGroup.id = UUID().uuidString
             newGroup.createdAt = Date()
+            newGroup.id = UUID().uuidString
             newGroup.lastEditedAt = Date()
-            newGroup.groupMember = []
-            newGroup.groupTransaction = []
+            newGroup.name = nameTextField.text!
+            newGroup.membersInfo = []
+            newGroup.transactions = []
             if container.viewContext.hasChanges{
                 do{
                     try container.viewContext.save()

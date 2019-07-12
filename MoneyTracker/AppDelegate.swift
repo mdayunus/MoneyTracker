@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 import CoreData
 
 @UIApplicationMain
@@ -20,6 +21,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+//        let at = Transaction.createFetchRequest()
+//        let atresult = try? persistentContainer.viewContext.fetch(at)
+//        print(atresult)
+//        let am = Member.createFetchRequest()
+//        let amr = try? persistentContainer.viewContext.fetch(am)
+//        print(amr)
+//        let ami = MemberInfo.createFetchRequest()
+//        let amir = try? persistentContainer.viewContext.fetch(ami)
+//        print(amir)
+//        let ag = Group.createFetchRequest()
+//        let agr = try? persistentContainer.viewContext.fetch(ag)
+//        print(agr)
+        
+        UNUserNotificationCenter.current().delegate = self
         return true
     }
 
@@ -93,4 +108,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
-
+extension AppDelegate: UNUserNotificationCenterDelegate{
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        switch response.actionIdentifier {
+        case "open":
+            print("open")
+        case "later":
+            print("later")
+        case "close":
+            print("close")
+        default:
+            print("wow")
+        }
+        completionHandler()
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound, .badge])
+    }
+}
