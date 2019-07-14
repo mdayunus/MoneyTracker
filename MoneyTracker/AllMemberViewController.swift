@@ -52,9 +52,9 @@ extension AllMemberViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = allMemberTableView.dequeueReusableCell(withIdentifier: Cells.allMemberCell, for: indexPath)
         if let objc = frc?.object(at: indexPath){
-            cell.textLabel?.text = objc.name
-            cell.detailTextLabel?.text = objc.emailID
-            cell.imageView?.image = UIImage(data: objc.imageData)
+            cell.textLabel?.text = objc.memberInfo.name
+            cell.detailTextLabel?.text = objc.memberInfo.emailID
+            cell.imageView?.image = UIImage(data: objc.memberInfo.imageData)
         }
         return cell
     }

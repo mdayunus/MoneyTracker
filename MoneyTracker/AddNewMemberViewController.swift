@@ -50,40 +50,40 @@ class AddNewMemberViewController: UIViewController {
         }
     }
     
-    @IBAction func saveMember(_ sender: UIButton) {
-        if emailTextField.text!.isEmpty || nameTextField.text!.isEmpty{
-            Alert.textFieldIsEmpty(name: emailTextField, nameTextField, on: self)
-        }else{
-            if emailTextField.text!.validateEmail(){
-                guard let defaultImageData = UIImage(named: "cash")?.pngData() else{return}
-                guard let container = container else{return}
-                let nm = Member(context: container.viewContext)
-                nm.createdAt = Date()
-                nm.emailID = emailTextField.text!
-                nm.id = UUID().uuidString
-                nm.imageData = imageData ?? defaultImageData
-                nm.lastEditedAt = Date()
-                nm.name = nameTextField.text!
-                let nd = MemberInfo(context: container.viewContext)
-                nd.joiningDate = Date()
-                nd.position = "member hai"
-                nd.member = nm
-                nd.ofGroup = selectedGroup!
-                nd.transactions = []
-                if container.viewContext.hasChanges{
-                    do{
-                        try container.viewContext.save()
-                    }catch{
-                        fatalError()
-                    }
-                }
-                navigationController?.popViewController(animated: true)
-            }else{
-                print("invalid email")
-            }
-            
-        }
-    }
+//    @IBAction func saveMember(_ sender: UIButton) {
+//        if emailTextField.text!.isEmpty || nameTextField.text!.isEmpty{
+//            Alert.textFieldIsEmpty(name: emailTextField, nameTextField, on: self)
+//        }else{
+//            if emailTextField.text!.validateEmail(){
+//                guard let defaultImageData = UIImage(named: "cash")?.pngData() else{return}
+//                guard let container = container else{return}
+//                let nm = Member(context: container.viewContext)
+//                nm.createdAt = Date()
+//                nm.emailID = emailTextField.text!
+//                nm.id = UUID().uuidString
+//                nm.imageData = imageData ?? defaultImageData
+//                nm.lastEditedAt = Date()
+//                nm.name = nameTextField.text!
+//                let nd = MemberInfo(context: container.viewContext)
+//                nd.joiningDate = Date()
+//                nd.position = "member hai"
+//                nd.member = nm
+//                nd.ofGroup = selectedGroup!
+//                nd.transactions = []
+//                if container.viewContext.hasChanges{
+//                    do{
+//                        try container.viewContext.save()
+//                    }catch{
+//                        fatalError()
+//                    }
+//                }
+//                navigationController?.popViewController(animated: true)
+//            }else{
+//                print("invalid email")
+//            }
+//            
+//        }
+//    }
     
     var container = AppDelegate.container
     

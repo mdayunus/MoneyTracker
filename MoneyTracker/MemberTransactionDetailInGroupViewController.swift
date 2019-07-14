@@ -10,6 +10,16 @@ import UIKit
 
 class MemberTransactionDetailInGroupViewController: UIViewController {
     
+    // outlets
+    
+    
+    @IBOutlet weak var backgroundView: UIView!{
+        didSet{
+            backgroundView.layer.cornerRadius = 20 //backgroundView.frame.height / 2
+            backgroundView.layer.masksToBounds = true
+        }
+    }
+    
     
     
     @IBOutlet weak var MemberTransactionDetailTableView: UITableView!{
@@ -28,7 +38,7 @@ class MemberTransactionDetailInGroupViewController: UIViewController {
     }
     
     @objc func getTransations(){
-        guard let tset = selectedMemberInfo?.transactions as? Set<Transaction> else{return}
+        guard let tset = selectedMemberInfo?.info.transactions as? Set<Transaction> else{return}
         allTransactions = Array(tset)
         MemberTransactionDetailTableView.reloadData()
     }
@@ -53,19 +63,19 @@ extension MemberTransactionDetailInGroupViewController: UITableViewDelegate, UIT
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = Bundle.main.loadNibNamed("TransactionCell", owner: self, options: nil)?.first as? TransactionCell
-        cell?.userImageView.image = UIImage(data: (allTransactions?[indexPath.row].byMember.member.imageData)!)
-        cell?.memberName.text = allTransactions?[indexPath.row].byMember.member.name
-        if allTransactions?[indexPath.row].creditOrDebit == CreditOrDebit.debit.rawValue{
-            cell?.amount.textColor = UIColor.red
-        }
+        cell?.userImageView.image = UIImage(data: (allTransactions?[indexPath.row].byMember.memberInfo.imageData)!)
+        cell?.memberName.text = allTransactions?[indexPath.row].byMember.memberInfo.name
+//        if allTransactions?[indexPath.row].creditOrDebit == CreditOrDebit.debit.rawValue{
+//            cell?.amount.textColor = UIColor.red
+//        }
         cell?.madeAt.text = allTransactions?[indexPath.row].madeAt.description
         if allTransactions?[indexPath.row].cashOrCheque == CashOrCheque.cash.inString{
             cell?.cocImageView.image = #imageLiteral(resourceName: "money")
         }else{
             cell?.cocImageView.image = #imageLiteral(resourceName: "check book")
         }
-        cell?.amount.text = "\(allTransactions![indexPath.row].amount)"
-        cell?.reason.text = allTransactions?[indexPath.row].noteOrPurpose
+        cell?.amount.text = "\(allTransactions![indexPath.row].debit.amount)"
+        cell?.reason.text = allTransactions?[indexPath.row].debit.purpose
         return cell!
     }
     

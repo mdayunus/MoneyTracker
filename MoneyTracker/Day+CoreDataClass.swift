@@ -1,5 +1,5 @@
 //
-//  MemberInfo+CoreDataClass.swift
+//  Day+CoreDataClass.swift
 //  MoneyTracker
 //
 //  Created by Mohammad Yunus on 14/07/19.
@@ -11,6 +11,6 @@ import Foundation
 import CoreData
 
 
-public class MemberInfo: NSManagedObject {
+public class Day: NSManagedObject {
 
 }

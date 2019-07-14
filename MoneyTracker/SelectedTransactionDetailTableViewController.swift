@@ -56,13 +56,13 @@ class SelectedTransactionDetailTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Del", style: .plain, target: self, action: #selector(deleteThisTransaction))
-        amountLabel.text = "\(selectedTransaction.amount)"
-        noteLabel.text = selectedTransaction.noteOrPurpose
-        typeLabel.text = selectedTransaction.creditOrDebit
+        amountLabel.text = "\(selectedTransaction.debit.amount)"
+        noteLabel.text = selectedTransaction.debit.purpose
+//        typeLabel.text = selectedTransaction.creditOrDebit
         idLabel.text = selectedTransaction.id
         timeLabel.text = selectedTransaction.madeAt.DateInString
-        memberLabel.text = selectedTransaction.byMember.member.name
-        groupLabel.text = selectedTransaction.inGroup.name
+        memberLabel.text = selectedTransaction.byMember.memberInfo.name
+        groupLabel.text = selectedTransaction.byMember.inGroup.name
         if selectedTransaction.cashOrCheque.count > 1{
             methodLabel.text = "cheque"
             cnumberLabel.text = selectedTransaction.cashOrCheque[0]

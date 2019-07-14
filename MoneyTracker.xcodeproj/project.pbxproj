@@ -7,18 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		943AB92B22D9FB310019C08E /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943AB92A22D9FB310019C08E /* NotificationViewController.swift */; };
+		943AB9AE22DB5B610019C08E /* Credit+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943AB9A022DB5B610019C08E /* Credit+CoreDataClass.swift */; };
+		943AB9AF22DB5B610019C08E /* Credit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943AB9A122DB5B610019C08E /* Credit+CoreDataProperties.swift */; };
+		943AB9B022DB5B610019C08E /* Day+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943AB9A222DB5B610019C08E /* Day+CoreDataClass.swift */; };
+		943AB9B122DB5B610019C08E /* Day+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943AB9A322DB5B610019C08E /* Day+CoreDataProperties.swift */; };
+		943AB9B222DB5B610019C08E /* Member+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943AB9A422DB5B610019C08E /* Member+CoreDataClass.swift */; };
+		943AB9B322DB5B610019C08E /* Member+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943AB9A522DB5B610019C08E /* Member+CoreDataProperties.swift */; };
+		943AB9B422DB5B610019C08E /* Group+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943AB9A622DB5B610019C08E /* Group+CoreDataClass.swift */; };
+		943AB9B522DB5B610019C08E /* Group+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943AB9A722DB5B610019C08E /* Group+CoreDataProperties.swift */; };
+		943AB9B622DB5B610019C08E /* Transaction+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943AB9A822DB5B610019C08E /* Transaction+CoreDataClass.swift */; };
+		943AB9B722DB5B610019C08E /* Transaction+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943AB9A922DB5B610019C08E /* Transaction+CoreDataProperties.swift */; };
+		943AB9B822DB5B610019C08E /* Debit+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943AB9AA22DB5B610019C08E /* Debit+CoreDataClass.swift */; };
+		943AB9B922DB5B610019C08E /* Debit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943AB9AB22DB5B610019C08E /* Debit+CoreDataProperties.swift */; };
+		943AB9BA22DB5B610019C08E /* MemberInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943AB9AC22DB5B610019C08E /* MemberInfo+CoreDataClass.swift */; };
+		943AB9BB22DB5B610019C08E /* MemberInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943AB9AD22DB5B610019C08E /* MemberInfo+CoreDataProperties.swift */; };
 		945625C022CA0FDF00CB5CAF /* TransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945625BE22CA0FDF00CB5CAF /* TransactionCell.swift */; };
 		945625C122CA0FDF00CB5CAF /* TransactionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 945625BF22CA0FDF00CB5CAF /* TransactionCell.xib */; };
 		9464203122D7099D00C75BCA /* SelectedTransactionDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9464203022D7099D00C75BCA /* SelectedTransactionDetailTableViewController.swift */; };
 		9464203322D723D700C75BCA /* EditMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9464203222D723D700C75BCA /* EditMemberViewController.swift */; };
-		94D8126E22CC824300AB4D9C /* Transaction+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8126622CC824300AB4D9C /* Transaction+CoreDataClass.swift */; };
-		94D8126F22CC824300AB4D9C /* Transaction+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8126722CC824300AB4D9C /* Transaction+CoreDataProperties.swift */; };
-		94D8127022CC824300AB4D9C /* Member+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8126822CC824300AB4D9C /* Member+CoreDataClass.swift */; };
-		94D8127122CC824300AB4D9C /* Member+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8126922CC824300AB4D9C /* Member+CoreDataProperties.swift */; };
-		94D8127222CC824300AB4D9C /* Group+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8126A22CC824300AB4D9C /* Group+CoreDataClass.swift */; };
-		94D8127322CC824300AB4D9C /* Group+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8126B22CC824300AB4D9C /* Group+CoreDataProperties.swift */; };
-		94D8127422CC824300AB4D9C /* MemberInfo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8126C22CC824300AB4D9C /* MemberInfo+CoreDataClass.swift */; };
-		94D8127522CC824300AB4D9C /* MemberInfo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8126D22CC824300AB4D9C /* MemberInfo+CoreDataProperties.swift */; };
 		94FE952C22C1016A009B3CF4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FE952B22C1016A009B3CF4 /* AppDelegate.swift */; };
 		94FE952E22C1016A009B3CF4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FE952D22C1016A009B3CF4 /* ViewController.swift */; };
 		94FE953122C1016A009B3CF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94FE952F22C1016A009B3CF4 /* Main.storyboard */; };
@@ -58,18 +65,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		943AB92A22D9FB310019C08E /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		943AB9A022DB5B610019C08E /* Credit+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Credit+CoreDataClass.swift"; sourceTree = "<group>"; };
+		943AB9A122DB5B610019C08E /* Credit+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Credit+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		943AB9A222DB5B610019C08E /* Day+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataClass.swift"; sourceTree = "<group>"; };
+		943AB9A322DB5B610019C08E /* Day+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Day+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		943AB9A422DB5B610019C08E /* Member+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Member+CoreDataClass.swift"; sourceTree = "<group>"; };
+		943AB9A522DB5B610019C08E /* Member+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Member+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		943AB9A622DB5B610019C08E /* Group+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Group+CoreDataClass.swift"; sourceTree = "<group>"; };
+		943AB9A722DB5B610019C08E /* Group+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Group+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		943AB9A822DB5B610019C08E /* Transaction+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+CoreDataClass.swift"; sourceTree = "<group>"; };
+		943AB9A922DB5B610019C08E /* Transaction+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		943AB9AA22DB5B610019C08E /* Debit+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Debit+CoreDataClass.swift"; sourceTree = "<group>"; };
+		943AB9AB22DB5B610019C08E /* Debit+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Debit+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		943AB9AC22DB5B610019C08E /* MemberInfo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemberInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		943AB9AD22DB5B610019C08E /* MemberInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemberInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		945625BE22CA0FDF00CB5CAF /* TransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
 		945625BF22CA0FDF00CB5CAF /* TransactionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TransactionCell.xib; sourceTree = "<group>"; };
 		9464203022D7099D00C75BCA /* SelectedTransactionDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTransactionDetailTableViewController.swift; sourceTree = "<group>"; };
 		9464203222D723D700C75BCA /* EditMemberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMemberViewController.swift; sourceTree = "<group>"; };
-		94D8126622CC824300AB4D9C /* Transaction+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+CoreDataClass.swift"; sourceTree = "<group>"; };
-		94D8126722CC824300AB4D9C /* Transaction+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Transaction+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		94D8126822CC824300AB4D9C /* Member+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Member+CoreDataClass.swift"; sourceTree = "<group>"; };
-		94D8126922CC824300AB4D9C /* Member+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Member+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		94D8126A22CC824300AB4D9C /* Group+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Group+CoreDataClass.swift"; sourceTree = "<group>"; };
-		94D8126B22CC824300AB4D9C /* Group+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Group+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		94D8126C22CC824300AB4D9C /* MemberInfo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemberInfo+CoreDataClass.swift"; sourceTree = "<group>"; };
-		94D8126D22CC824300AB4D9C /* MemberInfo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemberInfo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		94FE952822C1016A009B3CF4 /* MoneyTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoneyTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94FE952B22C1016A009B3CF4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94FE952D22C1016A009B3CF4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -145,14 +159,20 @@
 		94FE952A22C1016A009B3CF4 /* MoneyTracker */ = {
 			isa = PBXGroup;
 			children = (
-				94D8126622CC824300AB4D9C /* Transaction+CoreDataClass.swift */,
-				94D8126722CC824300AB4D9C /* Transaction+CoreDataProperties.swift */,
-				94D8126822CC824300AB4D9C /* Member+CoreDataClass.swift */,
-				94D8126922CC824300AB4D9C /* Member+CoreDataProperties.swift */,
-				94D8126A22CC824300AB4D9C /* Group+CoreDataClass.swift */,
-				94D8126B22CC824300AB4D9C /* Group+CoreDataProperties.swift */,
-				94D8126C22CC824300AB4D9C /* MemberInfo+CoreDataClass.swift */,
-				94D8126D22CC824300AB4D9C /* MemberInfo+CoreDataProperties.swift */,
+				943AB9A022DB5B610019C08E /* Credit+CoreDataClass.swift */,
+				943AB9A122DB5B610019C08E /* Credit+CoreDataProperties.swift */,
+				943AB9A222DB5B610019C08E /* Day+CoreDataClass.swift */,
+				943AB9A322DB5B610019C08E /* Day+CoreDataProperties.swift */,
+				943AB9A422DB5B610019C08E /* Member+CoreDataClass.swift */,
+				943AB9A522DB5B610019C08E /* Member+CoreDataProperties.swift */,
+				943AB9A622DB5B610019C08E /* Group+CoreDataClass.swift */,
+				943AB9A722DB5B610019C08E /* Group+CoreDataProperties.swift */,
+				943AB9A822DB5B610019C08E /* Transaction+CoreDataClass.swift */,
+				943AB9A922DB5B610019C08E /* Transaction+CoreDataProperties.swift */,
+				943AB9AA22DB5B610019C08E /* Debit+CoreDataClass.swift */,
+				943AB9AB22DB5B610019C08E /* Debit+CoreDataProperties.swift */,
+				943AB9AC22DB5B610019C08E /* MemberInfo+CoreDataClass.swift */,
+				943AB9AD22DB5B610019C08E /* MemberInfo+CoreDataProperties.swift */,
 				94FE952B22C1016A009B3CF4 /* AppDelegate.swift */,
 				945625BE22CA0FDF00CB5CAF /* TransactionCell.swift */,
 				945625BF22CA0FDF00CB5CAF /* TransactionCell.xib */,
@@ -162,6 +182,7 @@
 				9464203022D7099D00C75BCA /* SelectedTransactionDetailTableViewController.swift */,
 				94FE960D22C2580D009B3CF4 /* AddNewTransactionViewController.swift */,
 				94FE952F22C1016A009B3CF4 /* Main.storyboard */,
+				943AB92A22D9FB310019C08E /* NotificationViewController.swift */,
 				94FE962322C52874009B3CF4 /* AllMemberViewController.swift */,
 				94FE962522C635C3009B3CF4 /* SelectedMemberDetailViewController.swift */,
 				9464203222D723D700C75BCA /* EditMemberViewController.swift */,
@@ -329,29 +350,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				943AB9AF22DB5B610019C08E /* Credit+CoreDataProperties.swift in Sources */,
+				943AB9B522DB5B610019C08E /* Group+CoreDataProperties.swift in Sources */,
 				94FE960C22C24009009B3CF4 /* GroupViewController.swift in Sources */,
+				943AB9B222DB5B610019C08E /* Member+CoreDataClass.swift in Sources */,
+				943AB9B622DB5B610019C08E /* Transaction+CoreDataClass.swift in Sources */,
+				943AB9BB22DB5B610019C08E /* MemberInfo+CoreDataProperties.swift in Sources */,
 				94FE952E22C1016A009B3CF4 /* ViewController.swift in Sources */,
+				943AB9AE22DB5B610019C08E /* Credit+CoreDataClass.swift in Sources */,
 				94FE953422C1016A009B3CF4 /* MoneyTracker.xcdatamodeld in Sources */,
+				943AB9B722DB5B610019C08E /* Transaction+CoreDataProperties.swift in Sources */,
 				94FE962422C52874009B3CF4 /* AllMemberViewController.swift in Sources */,
-				94D8126E22CC824300AB4D9C /* Transaction+CoreDataClass.swift in Sources */,
-				94D8127222CC824300AB4D9C /* Group+CoreDataClass.swift in Sources */,
+				943AB9B922DB5B610019C08E /* Debit+CoreDataProperties.swift in Sources */,
 				94FE961222C49234009B3CF4 /* GroupMemberViewController.swift in Sources */,
-				94D8126F22CC824300AB4D9C /* Transaction+CoreDataProperties.swift in Sources */,
 				94FE962622C635C3009B3CF4 /* SelectedMemberDetailViewController.swift in Sources */,
 				94FE952C22C1016A009B3CF4 /* AppDelegate.swift in Sources */,
-				94D8127022CC824300AB4D9C /* Member+CoreDataClass.swift in Sources */,
+				943AB9B422DB5B610019C08E /* Group+CoreDataClass.swift in Sources */,
 				94FE962022C4E139009B3CF4 /* AllExceptMemberViewController.swift in Sources */,
+				943AB9BA22DB5B610019C08E /* MemberInfo+CoreDataClass.swift in Sources */,
 				94FE961022C3C3E2009B3CF4 /* AddNewMemberViewController.swift in Sources */,
-				94D8127322CC824300AB4D9C /* Group+CoreDataProperties.swift in Sources */,
 				9464203122D7099D00C75BCA /* SelectedTransactionDetailTableViewController.swift in Sources */,
-				94D8127522CC824300AB4D9C /* MemberInfo+CoreDataProperties.swift in Sources */,
-				94D8127122CC824300AB4D9C /* Member+CoreDataProperties.swift in Sources */,
+				943AB9B022DB5B610019C08E /* Day+CoreDataClass.swift in Sources */,
 				94FE962822C646EB009B3CF4 /* MemberTransactionDetailInGroupViewController.swift in Sources */,
+				943AB9B122DB5B610019C08E /* Day+CoreDataProperties.swift in Sources */,
 				945625C022CA0FDF00CB5CAF /* TransactionCell.swift in Sources */,
 				9464203322D723D700C75BCA /* EditMemberViewController.swift in Sources */,
-				94D8127422CC824300AB4D9C /* MemberInfo+CoreDataClass.swift in Sources */,
 				94FE956D22C11AA8009B3CF4 /* MyEnums.swift in Sources */,
+				943AB92B22D9FB310019C08E /* NotificationViewController.swift in Sources */,
 				94FE960E22C2580D009B3CF4 /* AddNewTransactionViewController.swift in Sources */,
+				943AB9B322DB5B610019C08E /* Member+CoreDataProperties.swift in Sources */,
+				943AB9B822DB5B610019C08E /* Debit+CoreDataClass.swift in Sources */,
 				94FE962A22C65099009B3CF4 /* NewTransactionInViewController.swift in Sources */,
 				94FE960822C23BFA009B3CF4 /* AddNewGroupViewController.swift in Sources */,
 			);

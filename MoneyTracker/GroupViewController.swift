@@ -11,6 +11,10 @@ import CoreData
 
 class GroupViewController: UIViewController {
     
+    //properties
+    
+    var daysInGroup = [Day]()
+    
     @IBOutlet weak var transactionsTableView: UITableView!{
         didSet{
             transactionsTableView.delegate = self
@@ -24,12 +28,13 @@ class GroupViewController: UIViewController {
     var container = AppDelegate.container
     
     var selectedGroup: Group?
-    
-    var transactionList = [Transaction]()
 
     @objc func getTransactionDetail(){
-        guard let sgSet = selectedGroup?.transactions as? Set<Transaction> else{return}
-        transactionList = Array(sgSet)
+        guard let x = selectedGroup?.day as? Set<Day> else{return}
+        daysInGroup = Array(x)
+        daysInGroup.sort { (one, two) -> Bool in
+            return one.day > two.day
+        }
         transactionsTableView.reloadData()
     }
     
@@ -55,32 +60,38 @@ class GroupViewController: UIViewController {
 
 }
 extension GroupViewController: UITableViewDataSource, UITableViewDelegate{
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return daysInGroup.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return transactionList.count
+        return daysInGroup[section].transactions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = Bundle.main.loadNibNamed("TransactionCell", owner: self, options: nil)?.first as? TransactionCell
-        cell?.userImageView.image = UIImage(data: transactionList[indexPath.row].byMember.member.imageData)
-        cell?.memberName.text = transactionList[indexPath.row].byMember.member.name
-        if transactionList[indexPath.row].creditOrDebit == CreditOrDebit.debit.rawValue{
-            cell?.amount.textColor = UIColor.red
-        }
-        cell?.madeAt.text = transactionList[indexPath.row].madeAt.DateInString
-        if transactionList[indexPath.row].cashOrCheque == CashOrCheque.cash.inString{
-            cell?.cocImageView.image = #imageLiteral(resourceName: "money")
+        let cell = Bundle.main.loadNibNamed("TransactionCell", owner: self, options: nil)?.first as! TransactionCell
+        guard let transaction = daysInGroup[indexPath.section].transactions[indexPath.row] as? Transaction else{return cell}
+        cell.userImageView.image = UIImage(data: transaction.byMember.memberInfo.imageData)
+        cell.memberName.text = transaction.byMember.memberInfo.name
+//        if transactionList[indexPath.row].creditOrDebit == CreditOrDebit.debit.rawValue{
+//            cell?.amount.textColor = UIColor.red
+//        }
+        cell.madeAt.text = transaction.madeAt.DateInString
+        if transaction.cashOrCheque == CashOrCheque.cash.inString{
+            cell.cocImageView.image = #imageLiteral(resourceName: "money")
         }else{
-            cell?.cocImageView.image = #imageLiteral(resourceName: "check book")
+            cell.cocImageView.image = #imageLiteral(resourceName: "check book")
         }
-        cell?.amount.text = "\(transactionList[indexPath.row].amount)"
-        cell?.reason.text = transactionList[indexPath.row].noteOrPurpose
-        return cell!
+        cell.amount.text = "\(transaction.debit.amount)"
+        cell.reason.text = transaction.debit.purpose
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //go to detail view and show detail of transaction
         if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.selectedTransactionDetailTVC) as? SelectedTransactionDetailTableViewController{
-            dvc.selectedTransaction = transactionList[indexPath.row]
+            dvc.selectedTransaction = daysInGroup[indexPath.section].transactions[indexPath.row] as? Transaction
             navigationController?.show(dvc, sender: self)
         }
     }

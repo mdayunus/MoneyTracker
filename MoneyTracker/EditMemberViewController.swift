@@ -16,7 +16,7 @@ class EditMemberViewController: UIViewController {
     
     var selectedMember: Member!{
         didSet{
-            print(selectedMember.name)
+            print(selectedMember.memberInfo.name)
             do{
                 try selectedMember.validateForUpdate()
             }catch{
@@ -52,19 +52,19 @@ class EditMemberViewController: UIViewController {
         
         if !newName.isEmpty{
             selectedMember.setValue(newName, forKey: "name")
-            selectedMember.lastEditedAt = Date()
+            selectedMember.memberInfo.lastEditedAt = Date()
         }
         
         if !newEmail.isEmpty{
             if newEmail.validateEmail(){
                 selectedMember.setValue(newEmail, forKey: "emailID")
-                selectedMember.lastEditedAt = Date()
+                selectedMember.memberInfo.lastEditedAt = Date()
             }
         }
         
         if !imageData.isEmpty{
             selectedMember.setValue(imageData, forKey: "imageData")
-            selectedMember.lastEditedAt = Date()
+            selectedMember.memberInfo.lastEditedAt = Date()
         }
         
         if pContainer.viewContext.hasChanges{
@@ -87,12 +87,12 @@ class EditMemberViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print(imageData.isEmpty)
-        memberImageView.image = UIImage(data: selectedMember.imageData)
-        memberIDLabel.text = selectedMember.id
-        memberCreatedAtLabel.text = selectedMember.createdAt.DateInString
-        memberNewNameTextField.placeholder = selectedMember.name
-        memberNewEmailTextField.placeholder = selectedMember.emailID
-        memberLastEditedAtLabel.text = selectedMember.lastEditedAt.DateInString
+        memberImageView.image = UIImage(data: selectedMember.memberInfo.imageData)
+        memberIDLabel.text = selectedMember.memberInfo.id
+        memberCreatedAtLabel.text = selectedMember.memberInfo.createdAt.DateInString
+        memberNewNameTextField.placeholder = selectedMember.memberInfo.name
+        memberNewEmailTextField.placeholder = selectedMember.memberInfo.emailID
+        memberLastEditedAtLabel.text = selectedMember.memberInfo.lastEditedAt.DateInString
         alertLabel.text = "Tap on Image to change"
     }
     

@@ -10,7 +10,13 @@ import UIKit
 
 class AddNewGroupViewController: UIViewController {
     
-    var container = AppDelegate.container
+    
+    // properties
+    
+    var pContainer = AppDelegate.container
+    
+    
+    // outlets
     
     @IBOutlet weak var nameTextField: UITextField!{
         didSet{
@@ -18,18 +24,22 @@ class AddNewGroupViewController: UIViewController {
         }
     }
     
+    
+    // actions
+    
     @IBAction func saveButton(_ sender: UIButton) {
         if nameTextField.text!.isEmpty{
             Alert.textFieldIsEmpty(name: nameTextField, on: self)
         }else{
-            guard let container = container else {return}
+            guard let container = pContainer else {return}
+            let day = Day(context: container.viewContext)
             let newGroup = Group(context: container.viewContext)
             newGroup.createdAt = Date()
             newGroup.id = UUID().uuidString
-            newGroup.lastEditedAt = Date()
+            newGroup.lastEdited = Date()
             newGroup.name = nameTextField.text!
-            newGroup.membersInfo = []
-            newGroup.transactions = []
+            newGroup.members = []
+//            newGroup.day = day // check if this is really required
             if container.viewContext.hasChanges{
                 do{
                     try container.viewContext.save()

@@ -143,11 +143,11 @@ class AddNewTransactionViewController: UIViewController {
         let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
         
         //reminder actions
-        let openAction = UNNotificationAction(identifier: "open", title: "open", options: [.foreground])
-        let laterAction = UNNotificationAction(identifier: "later", title: "Remind me tomorrow", options: [])
+//        let openAction = UNNotificationAction(identifier: "open", title: "open", options: [.foreground])
+//        let laterAction = UNNotificationAction(identifier: "later", title: "Remind me tomorrow", options: [])
         let closeAction = UNNotificationAction(identifier: "close", title: "close", options: [])
         
-        let chequeNotificationActions = UNNotificationCategory(identifier: self.uuidString, actions: [openAction, laterAction, closeAction], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: [])
+        let chequeNotificationActions = UNNotificationCategory(identifier: self.uuidString, actions: [/*openAction, laterAction,*/ closeAction], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: [])
         
         current.setNotificationCategories([chequeNotificationActions])
         current.add(request) { (error) in
@@ -160,7 +160,7 @@ class AddNewTransactionViewController: UIViewController {
     }
     
     func getMemberData(){
-        guard let memberSet = selectedGroup?.membersInfo as? Set<MemberInfo> else{return}
+        guard let memberSet = selectedGroup?.members as? Set<MemberInfo> else{return}
         memberInfoList = Array(memberSet)
         filteredMemberInfoList = Array(memberSet)
         if memberInfoList.isEmpty{
@@ -185,149 +185,149 @@ extension AddNewTransactionViewController: UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = memberTableView.dequeueReusableCell(withIdentifier: Cells.optionCell, for: indexPath)
-        cell.textLabel?.text = memberInfoList[indexPath.row].member.name
-        cell.detailTextLabel?.text = memberInfoList[indexPath.row].member.emailID
-        cell.imageView?.image = UIImage(data: memberInfoList[indexPath.row].member.imageData)
+        cell.textLabel?.text = memberInfoList[indexPath.row].name
+        cell.detailTextLabel?.text = memberInfoList[indexPath.row].emailID
+        cell.imageView?.image = UIImage(data: memberInfoList[indexPath.row].imageData)
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let group = selectedGroup  else {return}
-        guard let container = container else{return}
-        let nt = Transaction(context: container.viewContext)
-        
-        guard let amountText = amountTextField.text, let noteOrPurposeText = noteOrPurpose.text else{return}
-        
-        if amountText.isEmpty || noteOrPurposeText.isEmpty{
-            Alert.textFieldIsEmpty(name: amountTextField, on: self)
-        }else{
-            if let amountInDouble = Double(amountText){
-                nt.amount = amountInDouble
-                
-                nt.noteOrPurpose = noteOrPurposeText
-                
-                nt.creditOrDebit = creditOrDebit.isOn ? CreditOrDebit.debit.rawValue : CreditOrDebit.credit.rawValue
-                
-                if !cashOrcheque.isOn{
-                    guard let chequeNumberText = chequeNumberField.text else{return}
-                    if chequeNumberText.isEmpty  || chequeDateField.text!.isEmpty{
-                        //show number and date are empty
-                        print("empty field/s here")
-                        Alert.textFieldIsEmpty(name: chequeNumberField, on: self)
-                        memberTableView.deselectRow(at: indexPath, animated: true)
-                    }else{
-                        
-                        
-                        
-                        if remindMe.isOn{
-                            
-                            
-                            var cdc = cal.dateComponents([.day, .month, .year], from: cdp.date)
-                            
-                            //
-                            guard let checkTime = cal.date(from: cdc) else{return}
-                            
-                            //
-                            
-                            nt.cashOrCheque = CashOrCheque.cheque(number: chequeNumberText, time: checkTime, remainderUUID: uuidString).inString
-                            
-                            cdc.hour = Cheque.timeHour
-                            cdc.minute = Cheque.timeMin
-                            print(cdc)
-                            current.getNotificationSettings { (ntfctnSetting) in
-                                switch ntfctnSetting.authorizationStatus{
-                                case .provisional, .authorized:
-                                    print("auth")
-                                    
-                                    self.scheduleNotification(dateComponents: cdc, amount: nt.amount, member: nt.byMember.member.name, cod: nt.creditOrDebit, category: self.uuidString)
-                                    
-                                case .denied:
-                                    print("denied")
-                                    print("ask to go to settings and allow notification")
-                                case .notDetermined:
-                                    print("not det")
-                                    //                                                                print("show go to app setttings and allow notification then come back and save")
-                                    self.current.requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { (granted, error) in
-                                        if error != nil{
-                                            print(error!)
-                                        }else{
-                                            if granted == false{
-                                                print("declined")
-                                            }else if granted == true{
-                                                print("granted")
-                                                self.scheduleNotification(dateComponents: cdc, amount: nt.amount, member: nt.byMember.member.name, cod: nt.creditOrDebit, category: self.uuidString)
-                                            }
-                                        }
-                                    })
-                                default:
-                                    print("default")
-                                }
-                            }
-                            
-                            
-                            nt.id = uuidString
-                            nt.madeAt = Date()
-                            nt.byMember = memberInfoList[indexPath.row]
-                            nt.inGroup = group
-                            if container.viewContext.hasChanges{
-                                do{
-                                    try container.viewContext.save()
-                                    
-                                }catch{
-                                    print(error)
-                                    fatalError()
-                                }
-                            }
-                            navigationController?.popViewController(animated: true)
-                        }else if !remindMe.isOn{
-                            
-                            let cdc = cal.dateComponents([.day, .month, .year], from: cdp.date)
-                            guard let checkTime = cal.date(from: cdc) else{return}
-                            
-                            nt.cashOrCheque = CashOrCheque.cheque(number: chequeNumberText, time: checkTime, remainderUUID: "off").inString
-                            
-                            nt.id = uuidString
-                            nt.madeAt = Date()
-                            nt.byMember = memberInfoList[indexPath.row]
-                            nt.inGroup = group
-                            if container.viewContext.hasChanges{
-                                do{
-                                    try container.viewContext.save()
-                                    
-                                }catch{
-                                    print(error)
-                                    fatalError()
-                                }
-                            }
-                            navigationController?.popViewController(animated: true)
-                        }
-                    }
-                }else if cashOrcheque.isOn{
-                    print(nt.noteOrPurpose)
-                    print(nt.amount)
-                    print(nt.creditOrDebit)
-                    nt.cashOrCheque = CashOrCheque.cash.inString
-                    nt.id = uuidString
-                    nt.madeAt = Date()
-                    nt.byMember = memberInfoList[indexPath.row]
-                    nt.inGroup = group
-                    if container.viewContext.hasChanges{
-                        do{
-                            try container.viewContext.save()
-                            
-                        }catch{
-                            fatalError()
-                        }
-                    }
-                    navigationController?.popViewController(animated: true)
-                }
-            }else{
-                // amount is not double
-                print("amount is not double")
-                Alert.stringCannotBeConvertedIntoDouble(on: self)
-            }
-        }
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        guard let group = selectedGroup  else {return}
+//        guard let container = container else{return}
+//        let nt = Transaction(context: container.viewContext)
+//        nt.id = uuidString
+//        nt.madeAt = Date()
+//        nt.byMember = memberInfoList[indexPath.row].info
+//
+//        guard let amountText = amountTextField.text, let noteOrPurposeText = noteOrPurpose.text else{return}
+//
+//        if amountText.isEmpty || noteOrPurposeText.isEmpty{
+//            Alert.textFieldIsEmpty(name: amountTextField, on: self)
+//        }else{
+//            if let amountInDouble = Double(amountText){
+//                nt.amount = amountInDouble
+//
+//                nt.noteOrPurpose = noteOrPurposeText
+//
+//                nt.creditOrDebit = creditOrDebit.isOn ? CreditOrDebit.debit.rawValue : CreditOrDebit.credit.rawValue
+//
+//                if !cashOrcheque.isOn{
+//                    guard let chequeNumberText = chequeNumberField.text else{return}
+//                    if chequeNumberText.isEmpty  || chequeDateField.text!.isEmpty{
+//                        //show number and date are empty
+//                        print("empty field/s here")
+//                        Alert.textFieldIsEmpty(name: chequeNumberField, on: self)
+//                        memberTableView.deselectRow(at: indexPath, animated: true)
+//                    }else{
+//
+//
+//
+//                        if remindMe.isOn{
+//
+//
+//                            var cdc = cal.dateComponents([.day, .month, .year], from: cdp.date)
+//
+//                            //
+//                            guard let checkTime = cal.date(from: cdc) else{return}
+//
+//                            //
+//
+//                            nt.cashOrCheque = CashOrCheque.cheque(number: chequeNumberText, time: checkTime, remainderUUID: uuidString).inString
+//
+//                            cdc.hour = Cheque.timeHour
+//                            cdc.minute = Cheque.timeMin
+//                            print(cdc)
+//                            current.getNotificationSettings { (ntfctnSetting) in
+//                                switch ntfctnSetting.authorizationStatus{
+//                                case .provisional, .authorized:
+//                                    print("auth")
+//
+//                                    self.scheduleNotification(dateComponents: cdc, amount: nt.amount, member: nt.byMember.member.name, cod: nt.creditOrDebit, category: self.uuidString)
+//
+//                                case .denied:
+//                                    print("denied")
+//                                    print("ask to go to settings and allow notification")
+//                                case .notDetermined:
+//                                    print("not det")
+//                                    //                                                                print("show go to app setttings and allow notification then come back and save")
+//                                    self.current.requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { (granted, error) in
+//                                        if error != nil{
+//                                            print(error!)
+//                                        }else{
+//                                            if granted == false{
+//                                                print("declined")
+//                                            }else if granted == true{
+//                                                print("granted")
+//                                                self.scheduleNotification(dateComponents: cdc, amount: nt.amount, member: nt.byMember.member.name, cod: nt.creditOrDebit, category: self.uuidString)
+//                                            }
+//                                        }
+//                                    })
+//                                default:
+//                                    print("default")
+//                                }
+//                            }
+//
+//
+//
+//                            if container.viewContext.hasChanges{
+//                                do{
+//                                    try container.viewContext.save()
+//
+//                                }catch{
+//                                    print(error)
+//                                    fatalError()
+//                                }
+//                            }
+//                            navigationController?.popViewController(animated: true)
+//                        }else if !remindMe.isOn{
+//
+//                            let cdc = cal.dateComponents([.day, .month, .year], from: cdp.date)
+//                            guard let checkTime = cal.date(from: cdc) else{return}
+//
+//                            nt.cashOrCheque = CashOrCheque.cheque(number: chequeNumberText, time: checkTime, remainderUUID: "off").inString
+////
+////                            nt.id = uuidString
+////                            nt.madeAt = Date()
+////                            nt.byMember = memberInfoList[indexPath.row]
+////                            nt.inGroup = group
+//                            if container.viewContext.hasChanges{
+//                                do{
+//                                    try container.viewContext.save()
+//
+//                                }catch{
+//                                    print(error)
+//                                    fatalError()
+//                                }
+//                            }
+//                            navigationController?.popViewController(animated: true)
+//                        }
+//                    }
+//                }else if cashOrcheque.isOn{
+//                    print(nt.noteOrPurpose)
+//                    print(nt.amount)
+//                    print(nt.creditOrDebit)
+//                    nt.cashOrCheque = CashOrCheque.cash.inString
+////                    nt.id = uuidString
+////                    nt.madeAt = Date()
+////                    nt.byMember = memberInfoList[indexPath.row]
+////                    nt.inGroup = group
+//                    if container.viewContext.hasChanges{
+//                        do{
+//                            try container.viewContext.save()
+//
+//                        }catch{
+//                            fatalError()
+//                        }
+//                    }
+//                    navigationController?.popViewController(animated: true)
+//                }
+//            }else{
+//                // amount is not double
+//                print("amount is not double")
+//                Alert.stringCannotBeConvertedIntoDouble(on: self)
+//            }
+//        }
+//    }
     
     
 }
@@ -371,7 +371,7 @@ extension AddNewTransactionViewController: UISearchBarDelegate{
             return
         }
         memberInfoList = filteredMemberInfoList.filter({ (mi) -> Bool in
-            return mi.member.name.lowercased().contains(searchText.lowercased())
+            return mi.name.lowercased().contains(searchText.lowercased())
         })
         memberTableView.reloadData()
     }

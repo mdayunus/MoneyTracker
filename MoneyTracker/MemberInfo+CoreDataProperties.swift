@@ -2,7 +2,7 @@
 //  MemberInfo+CoreDataProperties.swift
 //  MoneyTracker
 //
-//  Created by Mohammad Yunus on 03/07/19.
+//  Created by Mohammad Yunus on 14/07/19.
 //  Copyright © 2019 simpleApp. All rights reserved.
 //
 //
@@ -17,27 +17,12 @@ extension MemberInfo {
         return NSFetchRequest<MemberInfo>(entityName: "MemberInfo")
     }
 
-    @NSManaged public var joiningDate: Date
-    @NSManaged public var position: String
-    @NSManaged public var member: Member
-    @NSManaged public var ofGroup: Group
-    @NSManaged public var transactions: NSSet
-
-}
-
-// MARK: Generated accessors for transactions
-extension MemberInfo {
-
-    @objc(addTransactionsObject:)
-    @NSManaged public func addToTransactions(_ value: Transaction)
-
-    @objc(removeTransactionsObject:)
-    @NSManaged public func removeFromTransactions(_ value: Transaction)
-
-    @objc(addTransactions:)
-    @NSManaged public func addToTransactions(_ values: NSSet)
-
-    @objc(removeTransactions:)
-    @NSManaged public func removeFromTransactions(_ values: NSSet)
+    @NSManaged public var createdAt: Date
+    @NSManaged public var emailID: String
+    @NSManaged public var id: String
+    @NSManaged public var imageData: Data
+    @NSManaged public var lastEditedAt: Date
+    @NSManaged public var name: String
+    @NSManaged public var info: Member
 
 }

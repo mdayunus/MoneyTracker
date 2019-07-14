@@ -10,6 +10,14 @@ import UIKit
 
 class SelectedMemberDetailViewController: UIViewController {
     
+    
+    @IBOutlet weak var backgroundView: UIView!{
+        didSet{
+            backgroundView.layer.cornerRadius = backgroundView.frame.size.height / 2
+            backgroundView.layer.masksToBounds = true
+        }
+    }
+    
     @IBOutlet weak var memberImageView: UIImageView!
     
     @IBOutlet weak var memberName: UILabel!
@@ -17,9 +25,9 @@ class SelectedMemberDetailViewController: UIViewController {
     @IBOutlet weak var memberEmail: UILabel!
     
     @objc func viewSetup(){
-        memberImageView.image = UIImage(data: selectedMember!.imageData)
-        memberName.text = selectedMember?.name
-        memberEmail.text = selectedMember?.emailID
+        memberImageView.image = UIImage(data: selectedMember!.memberInfo.imageData)
+        memberName.text = selectedMember?.memberInfo.name
+        memberEmail.text = selectedMember?.memberInfo.emailID
     }
     
     @IBOutlet weak var memberGroupTableView: UITableView!{
@@ -39,9 +47,9 @@ class SelectedMemberDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewSetup()
-        guard let memberDetail = selectedMember?.info as? Set<MemberInfo> else{return}
+        guard let memberDetail = selectedMember!.memberInfo as? Set<MemberInfo> else{return}
         memberInfoArr = Array(memberDetail)
-        groupArr = Array(memberDetail).map({$0.ofGroup})
+//        groupArr = Array(memberDetail).map({$0.ofGroup})
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editprofile))
         NotificationCenter.default.addObserver(self, selector: #selector(viewSetup), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
@@ -60,7 +68,7 @@ extension SelectedMemberDetailViewController: UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = memberGroupTableView.dequeueReusableCell(withIdentifier: Cells.selectedMemberGroupCell, for: indexPath)
         cell.textLabel?.text = groupArr[indexPath.row].name
-        cell.detailTextLabel?.text = "Joined on \(memberInfoArr[indexPath.row].joiningDate.DateInString)"
+        cell.detailTextLabel?.text = "Joined on \(memberInfoArr[indexPath.row].info.joiningDate.DateInString)"
         return cell
     }
     

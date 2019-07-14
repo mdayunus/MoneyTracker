@@ -24,10 +24,9 @@ class AllExceptMemberViewController: UIViewController {
         let req = Member.createFetchRequest()
         guard let result = try? container?.viewContext.fetch(req) else{return}
         guard let miig = membersInfoInGroup else{return}
-        let mig  = miig.map({$0.member})
-        allExceptMembers = result.filter({element in
-            return !mig.contains(element)
-        })
+//        allExceptMembers = result.filter({element in
+//            return !mig.contains(element)
+//        })
     }
     
     var frc: NSFetchedResultsController<MemberInfo>?
@@ -49,31 +48,31 @@ extension AllExceptMemberViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = allExceptMemberTableView.dequeueReusableCell(withIdentifier: Cells.allExceptMemberCell, for: indexPath)
-        cell.textLabel?.text = allExceptMembers[indexPath.row].name
-        cell.detailTextLabel?.text = allExceptMembers[indexPath.row].emailID
-        cell.imageView?.image = UIImage(data: allExceptMembers[indexPath.row].imageData)
+        cell.textLabel?.text = allExceptMembers[indexPath.row].memberInfo.name
+        cell.detailTextLabel?.text = allExceptMembers[indexPath.row].memberInfo.emailID
+        cell.imageView?.image = UIImage(data: allExceptMembers[indexPath.row].memberInfo.imageData)
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let group = selectedGroup, let container = container else{return}
-        let member = allExceptMembers[indexPath.row]
-        let mi = MemberInfo(context: container.viewContext)
-        mi.joiningDate = Date()
-        mi.position = "some position"
-        mi.member = member
-        mi.ofGroup = group
-        mi.transactions = []
-        if container.viewContext.hasChanges{
-            print("saving")
-            do{
-                try container.viewContext.save()
-            }catch{
-                fatalError()
-            }
-        }
-        navigationController?.popViewController(animated: true)
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        guard let group = selectedGroup, let container = container else{return}
+//        let member = allExceptMembers[indexPath.row]
+//        let mi = MemberInfo(context: container.viewContext)
+//        mi.joiningDate = Date()
+//        mi.position = "some position"
+//        mi.member = member
+//        mi.ofGroup = group
+//        mi.transactions = []
+//        if container.viewContext.hasChanges{
+//            print("saving")
+//            do{
+//                try container.viewContext.save()
+//            }catch{
+//                fatalError()
+//            }
+//        }
+//        navigationController?.popViewController(animated: true)
+//    }
     
     
 }

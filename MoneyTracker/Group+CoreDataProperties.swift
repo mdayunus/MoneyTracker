@@ -2,7 +2,7 @@
 //  Group+CoreDataProperties.swift
 //  MoneyTracker
 //
-//  Created by Mohammad Yunus on 03/07/19.
+//  Created by Mohammad Yunus on 14/07/19.
 //  Copyright © 2019 simpleApp. All rights reserved.
 //
 //
@@ -17,45 +17,45 @@ extension Group {
         return NSFetchRequest<Group>(entityName: "Group")
     }
 
-    @NSManaged public var createdAt: Date
-    @NSManaged public var id: String
-    @NSManaged public var lastEditedAt: Date
     @NSManaged public var name: String
-    @NSManaged public var membersInfo: NSSet
-    @NSManaged public var transactions: NSSet
+    @NSManaged public var createdAt: Date
+    @NSManaged public var lastEdited: Date
+    @NSManaged public var id: String
+    @NSManaged public var members: NSSet
+    @NSManaged public var day: NSSet
 
 }
 
-// MARK: Generated accessors for membersInfo
+// MARK: Generated accessors for members
 extension Group {
 
-    @objc(addMembersInfoObject:)
-    @NSManaged public func addToMembersInfo(_ value: MemberInfo)
+    @objc(addMembersObject:)
+    @NSManaged public func addToMembers(_ value: Member)
 
-    @objc(removeMembersInfoObject:)
-    @NSManaged public func removeFromMembersInfo(_ value: MemberInfo)
+    @objc(removeMembersObject:)
+    @NSManaged public func removeFromMembers(_ value: Member)
 
-    @objc(addMembersInfo:)
-    @NSManaged public func addToMembersInfo(_ values: NSSet)
+    @objc(addMembers:)
+    @NSManaged public func addToMembers(_ values: NSSet)
 
-    @objc(removeMembersInfo:)
-    @NSManaged public func removeFromMembersInfo(_ values: NSSet)
+    @objc(removeMembers:)
+    @NSManaged public func removeFromMembers(_ values: NSSet)
 
 }
 
-// MARK: Generated accessors for transactions
+// MARK: Generated accessors for day
 extension Group {
 
-    @objc(addTransactionsObject:)
-    @NSManaged public func addToTransactions(_ value: Transaction)
+    @objc(addDayObject:)
+    @NSManaged public func addToDay(_ value: Day)
 
-    @objc(removeTransactionsObject:)
-    @NSManaged public func removeFromTransactions(_ value: Transaction)
+    @objc(removeDayObject:)
+    @NSManaged public func removeFromDay(_ value: Day)
 
-    @objc(addTransactions:)
-    @NSManaged public func addToTransactions(_ values: NSSet)
+    @objc(addDay:)
+    @NSManaged public func addToDay(_ values: NSSet)
 
-    @objc(removeTransactions:)
-    @NSManaged public func removeFromTransactions(_ values: NSSet)
+    @objc(removeDay:)
+    @NSManaged public func removeFromDay(_ values: NSSet)
 
 }

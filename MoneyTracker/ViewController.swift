@@ -11,6 +11,16 @@ import CoreData
 
 class ViewController: UIViewController {
     
+    
+    // properties
+    
+    let pContainer = AppDelegate.container
+    
+    var frcGroup: NSFetchedResultsController<Group>?
+    
+    
+    // outlets
+    
     @IBOutlet weak var groupTableView: UITableView!{
         didSet{
             groupTableView.delegate = self
@@ -18,14 +28,15 @@ class ViewController: UIViewController {
         }
     }
     
-    let container = AppDelegate.container
     
-    var frcGroup: NSFetchedResultsController<Group>?
+    
+    
+    // helper methods
     
     @objc func getGroupData(){
         let request = Group.createFetchRequest()
         request.sortDescriptors = [ NSSortDescriptor(key: "lastEditedAt", ascending: true)]
-        guard let container = container else{return}
+        guard let container = pContainer else{return}
         frcGroup = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         do{
             try frcGroup?.performFetch()
@@ -34,6 +45,9 @@ class ViewController: UIViewController {
         }
         groupTableView.reloadData()
     }
+    
+    
+    //  view controller life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()

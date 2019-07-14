@@ -49,7 +49,7 @@ class GroupMemberViewController: UIViewController {
 
     }
     @objc func getMember(){
-        guard let members = selectedGroup?.membersInfo as? Set<MemberInfo> else{return}
+        guard let members = selectedGroup?.members as? Set<MemberInfo> else{return}
         memberList = Array(members)
         navigationItem.title = "\(memberList.count) Members in \(selectedGroup!.name)"
         memberTableView.reloadData()
@@ -76,9 +76,9 @@ extension GroupMemberViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = memberTableView.dequeueReusableCell(withIdentifier: Cells.memberCell, for: indexPath)
-        cell.textLabel?.text = memberList[indexPath.row].member.name
-        cell.detailTextLabel?.text = memberList[indexPath.row].joiningDate.DateInString
-        cell.imageView?.image = UIImage(data: memberList[indexPath.row].member.imageData)
+        cell.textLabel?.text = memberList[indexPath.row].name
+        cell.detailTextLabel?.text = memberList[indexPath.row].info.joiningDate.DateInString
+        cell.imageView?.image = UIImage(data: memberList[indexPath.row].imageData)
         return cell
     }
     
@@ -86,7 +86,7 @@ extension GroupMemberViewController: UITableViewDelegate, UITableViewDataSource{
         if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.memberTransactionDetailInGroupVC) as? MemberTransactionDetailInGroupViewController{
             dvc.selectedMemberInfo = memberList[indexPath.row]
             dvc.selectedGroup = selectedGroup
-            guard let alltransaction = memberList[indexPath.row].transactions as? Set<Transaction> else{return}
+            guard let alltransaction = memberList[indexPath.row].info.transactions as? Set<Transaction> else{return}
             dvc.allTransactions = Array(alltransaction)
             navigationController?.show(dvc, sender: self)
         }
