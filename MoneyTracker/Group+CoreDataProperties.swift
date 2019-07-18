@@ -2,7 +2,7 @@
 //  Group+CoreDataProperties.swift
 //  MoneyTracker
 //
-//  Created by Mohammad Yunus on 14/07/19.
+//  Created by Mohammad Yunus on 16/07/19.
 //  Copyright © 2019 simpleApp. All rights reserved.
 //
 //
@@ -21,8 +21,8 @@ extension Group {
     @NSManaged public var createdAt: Date
     @NSManaged public var lastEdited: Date
     @NSManaged public var id: String
-    @NSManaged public var members: NSSet
-    @NSManaged public var day: NSSet
+    @NSManaged public var members: Set<Member>
+    @NSManaged public var days: Set<Day>
 
 }
 
@@ -43,19 +43,19 @@ extension Group {
 
 }
 
-// MARK: Generated accessors for day
+// MARK: Generated accessors for days
 extension Group {
 
-    @objc(addDayObject:)
-    @NSManaged public func addToDay(_ value: Day)
+    @objc(addDaysObject:)
+    @NSManaged public func addToDays(_ value: Day)
 
-    @objc(removeDayObject:)
-    @NSManaged public func removeFromDay(_ value: Day)
+    @objc(removeDaysObject:)
+    @NSManaged public func removeFromDays(_ value: Day)
 
-    @objc(addDay:)
-    @NSManaged public func addToDay(_ values: NSSet)
+    @objc(addDays:)
+    @NSManaged public func addToDays(_ values: NSSet)
 
-    @objc(removeDay:)
-    @NSManaged public func removeFromDay(_ values: NSSet)
+    @objc(removeDays:)
+    @NSManaged public func removeFromDays(_ values: NSSet)
 
 }

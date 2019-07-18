@@ -10,12 +10,25 @@ import UIKit
 
 class GroupMemberViewController: UIViewController {
     
+    
+    // properties
+    
+    var selectedGroup: Group?
+    
+    var memberList = [Member]()
+    
+    
+    // outlets
+    
     @IBOutlet weak var memberTableView: UITableView!{
         didSet{
             memberTableView.delegate = self
             memberTableView.dataSource = self
         }
     }
+    
+    
+    // helper methods
     
     func gotoCreateNewMemberVC(){
         if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.addNewMemberVC) as? AddNewMemberViewController{
@@ -29,10 +42,19 @@ class GroupMemberViewController: UIViewController {
         print("all user")
         if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.allExceptMemberVC) as? AllExceptMemberViewController{
             dvc.selectedGroup = selectedGroup
-            dvc.membersInfoInGroup = memberList
+            dvc.membersInGroup = memberList
             navigationController?.show(dvc, sender: self)
         }
     }
+    
+    @objc func getMember(){
+        let members = selectedGroup?.members
+        memberList = Array(members!)
+        navigationItem.title = "\(memberList.count) Members in \(selectedGroup!.name)"
+        memberTableView.reloadData()
+    }
+    
+    // actions
     
     @IBAction func showOption(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: "Options", message: "select to proceed", preferredStyle: .actionSheet)
@@ -48,24 +70,15 @@ class GroupMemberViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
 
     }
-    @objc func getMember(){
-        guard let members = selectedGroup?.members as? Set<MemberInfo> else{return}
-        memberList = Array(members)
-        navigationItem.title = "\(memberList.count) Members in \(selectedGroup!.name)"
-        memberTableView.reloadData()
-    }
     
-    var selectedGroup: Group?
     
-    var memberList = [MemberInfo]()
+    // view controller life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        guard let group = selectedGroup else{return}
         getMember()
         NotificationCenter.default.addObserver(self, selector: #selector(getMember), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
- 
 
 }
 
@@ -76,17 +89,17 @@ extension GroupMemberViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = memberTableView.dequeueReusableCell(withIdentifier: Cells.memberCell, for: indexPath)
-        cell.textLabel?.text = memberList[indexPath.row].name
-        cell.detailTextLabel?.text = memberList[indexPath.row].info.joiningDate.DateInString
-        cell.imageView?.image = UIImage(data: memberList[indexPath.row].imageData)
+        cell.textLabel?.text = memberList[indexPath.row].memberInfo.name
+        cell.detailTextLabel?.text = memberList[indexPath.row].joiningDate.DateInString
+        cell.imageView?.image = UIImage(data: memberList[indexPath.row].memberInfo.imageData)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.memberTransactionDetailInGroupVC) as? MemberTransactionDetailInGroupViewController{
-            dvc.selectedMemberInfo = memberList[indexPath.row]
+            dvc.selectedMember = memberList[indexPath.row]
             dvc.selectedGroup = selectedGroup
-            guard let alltransaction = memberList[indexPath.row].info.transactions as? Set<Transaction> else{return}
+            let alltransaction = memberList[indexPath.row].transactions
             dvc.allTransactions = Array(alltransaction)
             navigationController?.show(dvc, sender: self)
         }

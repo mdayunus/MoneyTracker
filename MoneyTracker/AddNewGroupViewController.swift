@@ -32,14 +32,13 @@ class AddNewGroupViewController: UIViewController {
             Alert.textFieldIsEmpty(name: nameTextField, on: self)
         }else{
             guard let container = pContainer else {return}
-            let day = Day(context: container.viewContext)
             let newGroup = Group(context: container.viewContext)
             newGroup.createdAt = Date()
             newGroup.id = UUID().uuidString
             newGroup.lastEdited = Date()
             newGroup.name = nameTextField.text!
+            newGroup.days = []
             newGroup.members = []
-//            newGroup.day = day // check if this is really required
             if container.viewContext.hasChanges{
                 do{
                     try container.viewContext.save()

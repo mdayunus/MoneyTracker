@@ -11,6 +11,15 @@ import UIKit
 class SelectedMemberDetailViewController: UIViewController {
     
     
+    // properties
+    
+    var selectedMemberInfo: MemberInfo?
+    var groupArr = [Group]()
+    var memberInfoArr = [Member]()
+    
+    
+    // outlets
+    
     @IBOutlet weak var backgroundView: UIView!{
         didSet{
             backgroundView.layer.cornerRadius = backgroundView.frame.size.height / 2
@@ -24,12 +33,6 @@ class SelectedMemberDetailViewController: UIViewController {
     
     @IBOutlet weak var memberEmail: UILabel!
     
-    @objc func viewSetup(){
-        memberImageView.image = UIImage(data: selectedMember!.memberInfo.imageData)
-        memberName.text = selectedMember?.memberInfo.name
-        memberEmail.text = selectedMember?.memberInfo.emailID
-    }
-    
     @IBOutlet weak var memberGroupTableView: UITableView!{
         didSet{
             memberGroupTableView.delegate = self
@@ -37,26 +40,36 @@ class SelectedMemberDetailViewController: UIViewController {
         }
     }
     
+    
+    // helper methods
+    
+    @objc func viewSetup(){
+        memberImageView.image = UIImage(data: selectedMemberInfo!.imageData)
+        memberName.text = selectedMemberInfo?.name
+        memberEmail.text = selectedMemberInfo?.emailID
+    }
+    
     @objc func editprofile(){
         if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.editMemberViewController) as? EditMemberViewController{
-            dvc.selectedMember = selectedMember
+            dvc.selectedMemberInfo = selectedMemberInfo
             navigationController?.show(dvc, sender: self)
         }
     }
     
+    
+    // view controller life cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewSetup()
-        guard let memberDetail = selectedMember!.memberInfo as? Set<MemberInfo> else{return}
+        let memberDetail = selectedMemberInfo!.info
         memberInfoArr = Array(memberDetail)
-//        groupArr = Array(memberDetail).map({$0.ofGroup})
+        groupArr = memberInfoArr.map({$0.inGroup})
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editprofile))
         NotificationCenter.default.addObserver(self, selector: #selector(viewSetup), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
     
-    var selectedMember: Member?
-    var groupArr = [Group]()
-    var memberInfoArr = [MemberInfo]()
+    
 
 }
 
@@ -68,16 +81,14 @@ extension SelectedMemberDetailViewController: UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = memberGroupTableView.dequeueReusableCell(withIdentifier: Cells.selectedMemberGroupCell, for: indexPath)
         cell.textLabel?.text = groupArr[indexPath.row].name
-        cell.detailTextLabel?.text = "Joined on \(memberInfoArr[indexPath.row].info.joiningDate.DateInString)"
+        cell.detailTextLabel?.text = "Joined on \(memberInfoArr[indexPath.row].joiningDate.DateInString)"
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.memberTransactionDetailInGroupVC) as? MemberTransactionDetailInGroupViewController{
-//            guard let alltransaction = memberInfoArr[indexPath.row].transactions as? Set<Transaction> else{return}
-//            dvc.allTransactions = Array(alltransaction)
             dvc.selectedGroup = groupArr[indexPath.row]
-            dvc.selectedMemberInfo = memberInfoArr[indexPath.row]
+            dvc.selectedMember = memberInfoArr[indexPath.row]
             print(memberInfoArr[indexPath.row])
             navigationController?.show(dvc, sender: self)
         }

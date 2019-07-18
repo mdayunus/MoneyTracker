@@ -29,14 +29,12 @@ class ViewController: UIViewController {
     }
     
     
-    
-    
     // helper methods
     
     @objc func getGroupData(){
-        let request = Group.createFetchRequest()
-        request.sortDescriptors = [ NSSortDescriptor(key: "lastEditedAt", ascending: true)]
         guard let container = pContainer else{return}
+        let request = Group.createFetchRequest()
+        request.sortDescriptors = [ NSSortDescriptor(key: "lastEdited", ascending: false)]
         frcGroup = NSFetchedResultsController(fetchRequest: request, managedObjectContext: container.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         do{
             try frcGroup?.performFetch()
@@ -61,13 +59,12 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return frcGroup?.sections?[section].objects?.count ?? 0
+        return frcGroup?.sections?[section].numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = groupTableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath)
         if let obj = frcGroup?.object(at: indexPath){
-                
             cell.textLabel?.text = obj.name
             cell.detailTextLabel?.text = "created on: \(obj.createdAt.DateInString)"
         }
@@ -95,7 +92,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource{
 extension Date{
     var DateInString: String{
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
+        formatter.dateStyle = .long
         formatter.timeStyle = .none
         return formatter.string(from: self)
     }

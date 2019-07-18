@@ -2,7 +2,7 @@
 //  Day+CoreDataProperties.swift
 //  MoneyTracker
 //
-//  Created by Mohammad Yunus on 14/07/19.
+//  Created by Mohammad Yunus on 16/07/19.
 //  Copyright © 2019 simpleApp. All rights reserved.
 //
 //
@@ -17,9 +17,9 @@ extension Day {
         return NSFetchRequest<Day>(entityName: "Day")
     }
 
-    @NSManaged public var day: Date
-    @NSManaged public var transactions: NSArray
-    @NSManaged public var inGroup: Group
+    @NSManaged public var day: DateComponents
+    @NSManaged public var transactions: Set<Transaction>
+    @NSManaged public var invInGroup: Group
 
 }
 

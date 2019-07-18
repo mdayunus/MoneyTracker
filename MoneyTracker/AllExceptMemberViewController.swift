@@ -10,6 +10,22 @@ import UIKit
 import CoreData
 
 class AllExceptMemberViewController: UIViewController {
+    
+    
+    // properties
+    
+    var frc: NSFetchedResultsController<MemberInfo>?
+    
+    var container = AppDelegate.container
+    
+    var selectedGroup: Group!
+    
+    var membersInGroup: [Member]!
+    
+    var allExceptMembers = [MemberInfo]()
+    
+    
+    // outlets
 
     @IBOutlet weak var allExceptMemberTableView: UITableView!{
         didSet{
@@ -18,27 +34,19 @@ class AllExceptMemberViewController: UIViewController {
         }
     }
     
+    
+    // view controller life cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let req = Member.createFetchRequest()
+        let req = MemberInfo.createFetchRequest()
         guard let result = try? container?.viewContext.fetch(req) else{return}
-        guard let miig = membersInfoInGroup else{return}
-//        allExceptMembers = result.filter({element in
-//            return !mig.contains(element)
-//        })
+        let memberInfoOfMembersInGroup = membersInGroup.map({$0.memberInfo})
+        allExceptMembers = result.filter({element in
+            return !memberInfoOfMembersInGroup.contains(element)
+        })
     }
-    
-    var frc: NSFetchedResultsController<MemberInfo>?
-    
-    var container = AppDelegate.container
-    
-    var selectedGroup: Group?
-    
-    var membersInfoInGroup: [MemberInfo]?
-    
-    var allExceptMembers = [Member]()
-    
 
 }
 extension AllExceptMemberViewController: UITableViewDelegate, UITableViewDataSource{
@@ -48,31 +56,33 @@ extension AllExceptMemberViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = allExceptMemberTableView.dequeueReusableCell(withIdentifier: Cells.allExceptMemberCell, for: indexPath)
-        cell.textLabel?.text = allExceptMembers[indexPath.row].memberInfo.name
-        cell.detailTextLabel?.text = allExceptMembers[indexPath.row].memberInfo.emailID
-        cell.imageView?.image = UIImage(data: allExceptMembers[indexPath.row].memberInfo.imageData)
+        cell.textLabel?.text = allExceptMembers[indexPath.row].name
+        cell.detailTextLabel?.text = allExceptMembers[indexPath.row].emailID
+        cell.imageView?.image = UIImage(data: allExceptMembers[indexPath.row].imageData)
         return cell
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        guard let group = selectedGroup, let container = container else{return}
-//        let member = allExceptMembers[indexPath.row]
-//        let mi = MemberInfo(context: container.viewContext)
-//        mi.joiningDate = Date()
-//        mi.position = "some position"
-//        mi.member = member
-//        mi.ofGroup = group
-//        mi.transactions = []
-//        if container.viewContext.hasChanges{
-//            print("saving")
-//            do{
-//                try container.viewContext.save()
-//            }catch{
-//                fatalError()
-//            }
-//        }
-//        navigationController?.popViewController(animated: true)
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let group = selectedGroup, let container = container else{return}
+        let memberInfo = allExceptMembers[indexPath.row]
+        let nm = Member(context: container.viewContext)
+        nm.joiningDate = Date()
+        nm.position = "some position"
+        nm.inGroup = group
+        nm.memberInfo = memberInfo
+        nm.transactions = []
+        group.addToMembers(nm)
+        
+        if container.viewContext.hasChanges{
+            print("saving")
+            do{
+                try container.viewContext.save()
+            }catch{
+                fatalError()
+            }
+        }
+        navigationController?.popViewController(animated: true)
+    }
     
     
 }

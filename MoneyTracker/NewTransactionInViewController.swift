@@ -16,10 +16,12 @@ class NewTransactionInViewController: UIViewController {
     
     var container = AppDelegate.container
     var selectedGroup: Group?
-    var selectedMemberInfo: MemberInfo!
+    var selectedMember: Member!
     var cal = Calendar.current
     let uuidString = UUID().uuidString
     let current = UNUserNotificationCenter.current()
+    let cdp = UIDatePicker()
+    
     
     // outlets
     
@@ -60,6 +62,36 @@ class NewTransactionInViewController: UIViewController {
             remindStack.isHidden = true
         }
     }
+    
+    
+    // helper methods
+    
+    func scheduleNotification(dateComponents: DateComponents, amount: Double, member: String, cod: String, category: String){
+        let content = UNMutableNotificationContent()
+        content.title = "\(cod.uppercased()) Reminder"
+        content.body = "Alert: today at \(String(describing: dateComponents.year)) \(String(describing: dateComponents.month)) \(String(describing: dateComponents.day)) \(String(describing: dateComponents.hour)) \(String(describing: dateComponents.minute)), \(amount) will be \(cod)ed to \(member) account"
+        content.sound = .default
+        content.categoryIdentifier = category
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
+        
+        //reminder actions
+        let openAction = UNNotificationAction(identifier: "open", title: "open", options: [.foreground])
+        let laterAction = UNNotificationAction(identifier: "later", title: "Remind me tomorrow", options: [])
+        let closeAction = UNNotificationAction(identifier: "close", title: "close", options: [])
+        
+        let chequeNotificationActions = UNNotificationCategory(identifier: self.uuidString, actions: [openAction, laterAction, closeAction], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: [])
+        
+        current.setNotificationCategories([chequeNotificationActions])
+        current.add(request) { (error) in
+            if error != nil{
+                print(error!)
+            }else{
+                print("succesfully created an alert")
+            }
+        }
+    }
+    
     
     // actions
     
@@ -224,53 +256,12 @@ class NewTransactionInViewController: UIViewController {
 //    }
     
     
-    
-    
-    
-    
-    
-    // helper methods
-    
-    func scheduleNotification(dateComponents: DateComponents, amount: Double, member: String, cod: String, category: String){
-        let content = UNMutableNotificationContent()
-        content.title = "\(cod.uppercased()) Reminder"
-        content.body = "Alert: today at \(String(describing: dateComponents.year)) \(String(describing: dateComponents.month)) \(String(describing: dateComponents.day)) \(String(describing: dateComponents.hour)) \(String(describing: dateComponents.minute)), \(amount) will be \(cod)ed to \(member) account"
-        content.sound = .default
-        content.categoryIdentifier = category
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-        let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
-        
-        //reminder actions
-        let openAction = UNNotificationAction(identifier: "open", title: "open", options: [.foreground])
-        let laterAction = UNNotificationAction(identifier: "later", title: "Remind me tomorrow", options: [])
-        let closeAction = UNNotificationAction(identifier: "close", title: "close", options: [])
-        
-        let chequeNotificationActions = UNNotificationCategory(identifier: self.uuidString, actions: [openAction, laterAction, closeAction], intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: [])
-        
-        current.setNotificationCategories([chequeNotificationActions])
-        current.add(request) { (error) in
-            if error != nil{
-                print(error!)
-            }else{
-                print("succesfully created an alert")
-            }
-        }
-    }
-    
+    // view controller life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    let cdp = UIDatePicker()
-    
-    
-    
-    
-    
-    
-    
-
 }
 extension NewTransactionInViewController: UITextFieldDelegate{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

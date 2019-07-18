@@ -3,24 +3,24 @@
     <entity name="Credit" representedClassName=".Credit" syncable="YES">
         <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="note" attributeType="String" syncable="YES"/>
-        <relationship name="creditTransaction" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Transaction" inverseName="credit" inverseEntity="Transaction" syncable="YES"/>
+        <relationship name="invCredit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Transaction" inverseName="credit" inverseEntity="Transaction" syncable="YES"/>
     </entity>
     <entity name="Day" representedClassName=".Day" syncable="YES">
-        <attribute name="day" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="inGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="day" inverseEntity="Group" syncable="YES"/>
-        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="onDay" inverseEntity="Transaction" syncable="YES"/>
+        <attribute name="day" attributeType="Transformable" syncable="YES"/>
+        <relationship name="invInGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="days" inverseEntity="Group" syncable="YES"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="invOnDay" inverseEntity="Transaction" syncable="YES"/>
     </entity>
     <entity name="Debit" representedClassName=".Debit" syncable="YES">
         <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="purpose" attributeType="String" syncable="YES"/>
-        <relationship name="debitTransaction" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Transaction" inverseName="debit" inverseEntity="Transaction" syncable="YES"/>
+        <relationship name="invDebit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Transaction" inverseName="debit" inverseEntity="Transaction" syncable="YES"/>
     </entity>
     <entity name="Group" representedClassName=".Group" syncable="YES">
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="lastEdited" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <relationship name="day" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Day" inverseName="inGroup" inverseEntity="Day" syncable="YES"/>
+        <relationship name="days" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Day" inverseName="invInGroup" inverseEntity="Day" syncable="YES"/>
         <relationship name="members" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Member" inverseName="inGroup" inverseEntity="Member" syncable="YES"/>
     </entity>
     <entity name="Member" representedClassName=".Member" syncable="YES">
@@ -37,7 +37,7 @@
         <attribute name="imageData" attributeType="Binary" syncable="YES"/>
         <attribute name="lastEditedAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <relationship name="info" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="memberInfo" inverseEntity="Member" syncable="YES"/>
+        <relationship name="info" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Member" inverseName="memberInfo" inverseEntity="Member" syncable="YES"/>
     </entity>
     <entity name="Transaction" representedClassName=".Transaction" syncable="YES">
         <attribute name="cashOrCheque" attributeType="Transformable" syncable="YES"/>
@@ -45,9 +45,9 @@
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="madeAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="byMember" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="transactions" inverseEntity="Member" syncable="YES"/>
-        <relationship name="credit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Credit" inverseName="creditTransaction" inverseEntity="Credit" syncable="YES"/>
-        <relationship name="debit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Debit" inverseName="debitTransaction" inverseEntity="Debit" syncable="YES"/>
-        <relationship name="onDay" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="transactions" inverseEntity="Day" syncable="YES"/>
+        <relationship name="credit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Credit" inverseName="invCredit" inverseEntity="Credit" syncable="YES"/>
+        <relationship name="debit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Debit" inverseName="invDebit" inverseEntity="Debit" syncable="YES"/>
+        <relationship name="invOnDay" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="transactions" inverseEntity="Day" syncable="YES"/>
     </entity>
     <elements>
         <element name="Day" positionX="117.4140625" positionY="-233.94140625" width="128" height="90"/>

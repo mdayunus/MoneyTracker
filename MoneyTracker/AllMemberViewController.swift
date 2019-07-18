@@ -11,6 +11,18 @@ import CoreData
 
 class AllMemberViewController: UIViewController {
     
+    
+    // properties
+    
+    var frc: NSFetchedResultsController<MemberInfo>?
+    
+    var container = AppDelegate.container
+    
+    var memberCount = 0
+    
+    
+    // outlets
+    
     @IBOutlet weak var allMemberTableView: UITableView!{
         didSet{
             allMemberTableView.delegate = self
@@ -18,13 +30,24 @@ class AllMemberViewController: UIViewController {
         }
     }
     
+    
+    // helper methods
+    
     @objc func getMember(){
-        let req = Member.createFetchRequest()
+        let req = MemberInfo.createFetchRequest()
         req.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
         frc = NSFetchedResultsController(fetchRequest: req, managedObjectContext: container!.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        try? frc?.performFetch()
+        do{
+                try frc?.performFetch()
+        }catch{
+            fatalError()
+        }
+        
         allMemberTableView.reloadData()
     }
+    
+    
+    // view controller life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,12 +57,7 @@ class AllMemberViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(getMember), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
     
-    var frc: NSFetchedResultsController<Member>?
     
-    var container = AppDelegate.container
-    
-    var memberCount = 0
-
 }
 
 extension AllMemberViewController: UITableViewDelegate, UITableViewDataSource{
@@ -52,16 +70,16 @@ extension AllMemberViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = allMemberTableView.dequeueReusableCell(withIdentifier: Cells.allMemberCell, for: indexPath)
         if let objc = frc?.object(at: indexPath){
-            cell.textLabel?.text = objc.memberInfo.name
-            cell.detailTextLabel?.text = objc.memberInfo.emailID
-            cell.imageView?.image = UIImage(data: objc.memberInfo.imageData)
+            cell.textLabel?.text = objc.name
+            cell.detailTextLabel?.text = objc.emailID
+            cell.imageView?.image = UIImage(data: objc.imageData)
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.selectedMemberDetailVC) as? SelectedMemberDetailViewController{
-            dvc.selectedMember = frc?.object(at: indexPath)
+            dvc.selectedMemberInfo = frc?.object(at: indexPath)
             navigationController?.show(dvc, sender: self)
         }
     }

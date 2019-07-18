@@ -51,6 +51,23 @@ class SelectedTransactionDetailTableViewController: UITableViewController {
     @IBOutlet weak var reminderLabel: UILabel!
     
     
+    // helper methods
+    
+    @objc func deleteThisTransaction(){
+        guard let pContainer = container else{return}
+        pContainer.viewContext.delete(selectedTransaction)
+        if pContainer.viewContext.hasChanges{
+            do{
+                try pContainer.viewContext.save()
+                navigationController?.popViewController(animated: true)
+            }catch{
+                print("error in saving after delete")
+                fatalError()
+            }
+        }
+    }
+    
+    
     // view controller lifecycle
     
     override func viewDidLoad() {
@@ -58,7 +75,11 @@ class SelectedTransactionDetailTableViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Del", style: .plain, target: self, action: #selector(deleteThisTransaction))
         amountLabel.text = "\(selectedTransaction.debit.amount)"
         noteLabel.text = selectedTransaction.debit.purpose
-//        typeLabel.text = selectedTransaction.creditOrDebit
+        if selectedTransaction.creditOrDebit == true{
+          typeLabel.text = "cash"
+        }else if selectedTransaction.creditOrDebit == false{
+            typeLabel.text = "cheque"
+        }
         idLabel.text = selectedTransaction.id
         timeLabel.text = selectedTransaction.madeAt.DateInString
         memberLabel.text = selectedTransaction.byMember.memberInfo.name
@@ -111,20 +132,6 @@ class SelectedTransactionDetailTableViewController: UITableViewController {
         }
     }
     
-    // helper methods
     
-    @objc func deleteThisTransaction(){
-        guard let pContainer = container else{return}
-        pContainer.viewContext.delete(selectedTransaction)
-        if pContainer.viewContext.hasChanges{
-            do{
-                try pContainer.viewContext.save()
-                navigationController?.popViewController(animated: true)
-            }catch{
-                print("error in saving after delete")
-                fatalError()
-            }
-        }
-    }
     
 }

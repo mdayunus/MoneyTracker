@@ -2,7 +2,7 @@
 //  MemberInfo+CoreDataProperties.swift
 //  MoneyTracker
 //
-//  Created by Mohammad Yunus on 14/07/19.
+//  Created by Mohammad Yunus on 18/07/19.
 //  Copyright © 2019 simpleApp. All rights reserved.
 //
 //
@@ -23,6 +23,23 @@ extension MemberInfo {
     @NSManaged public var imageData: Data
     @NSManaged public var lastEditedAt: Date
     @NSManaged public var name: String
-    @NSManaged public var info: Member
+    @NSManaged public var info: Set<Member>
+
+}
+
+// MARK: Generated accessors for info
+extension MemberInfo {
+
+    @objc(addInfoObject:)
+    @NSManaged public func addToInfo(_ value: Member)
+
+    @objc(removeInfoObject:)
+    @NSManaged public func removeFromInfo(_ value: Member)
+
+    @objc(addInfo:)
+    @NSManaged public func addToInfo(_ values: NSSet)
+
+    @objc(removeInfo:)
+    @NSManaged public func removeFromInfo(_ values: NSSet)
 
 }

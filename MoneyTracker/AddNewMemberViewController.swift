@@ -11,6 +11,45 @@ import CoreData
 
 class AddNewMemberViewController: UIViewController {
     
+    
+    // outlets
+    
+    var container = AppDelegate.container
+    
+    var selectedGroup: Group?
+    
+    lazy var imagePicker = UIImagePickerController()
+    
+    var imageData: Data?{
+        didSet{
+            memberImageView.image = UIImage(data: imageData!)
+        }
+    }
+    
+    
+    // outlets
+    
+    @IBOutlet weak var memberImageView: UIImageView!{
+        didSet{
+            memberImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showImportImageOptions)))
+        }
+    }
+    
+    @IBOutlet weak var nameTextField: UITextField!{
+        didSet{
+            nameTextField.delegate = self
+        }
+    }
+    
+    @IBOutlet weak var emailTextField: UITextField!{
+        didSet{
+            emailTextField.delegate = self
+        }
+    }
+    
+    
+    // helper methods
+    
     @objc func getImage(using source: UIImagePickerController.SourceType){
         imagePicker.sourceType = source
         imagePicker.allowsEditing = false
@@ -32,70 +71,51 @@ class AddNewMemberViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    @IBOutlet weak var memberImageView: UIImageView!{
-        didSet{
-            memberImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showImportImageOptions)))
+    
+    // actions
+    
+    @IBAction func saveMember(_ sender: UIButton) {
+        if emailTextField.text!.isEmpty || nameTextField.text!.isEmpty{
+            Alert.textFieldIsEmpty(name: emailTextField, nameTextField, on: self)
+        }else{
+            if emailTextField.text!.validateEmail(){
+                guard let defaultImageData = UIImage(named: "cash")?.pngData() else{return}
+                guard let group = selectedGroup else{return}
+                guard let container = container else{return}
+                let nm = Member(context: container.viewContext)
+                nm.joiningDate = Date()
+                nm.position = "some position"
+                nm.inGroup = group
+                
+                let nmi = MemberInfo(context: container.viewContext)
+                nmi.createdAt = Date()
+                nmi.emailID = emailTextField.text!
+                nmi.id = UUID().uuidString
+                nmi.imageData = imageData ?? defaultImageData
+                nmi.lastEditedAt = Date()
+                nmi.name = nameTextField.text!
+                nm.memberInfo = nmi
+                
+                nm.transactions = []
+                
+                group.addToMembers(nm)
+                
+                if container.viewContext.hasChanges{
+                    do{
+                        try container.viewContext.save()
+                    }catch{
+                        fatalError()
+                    }
+                }
+                navigationController?.popViewController(animated: true)
+            }else{
+                print("invalid email")
+            }
+            
         }
     }
     
-    @IBOutlet weak var nameTextField: UITextField!{
-        didSet{
-            nameTextField.delegate = self
-        }
-    }
     
-    @IBOutlet weak var emailTextField: UITextField!{
-        didSet{
-            emailTextField.delegate = self
-        }
-    }
-    
-//    @IBAction func saveMember(_ sender: UIButton) {
-//        if emailTextField.text!.isEmpty || nameTextField.text!.isEmpty{
-//            Alert.textFieldIsEmpty(name: emailTextField, nameTextField, on: self)
-//        }else{
-//            if emailTextField.text!.validateEmail(){
-//                guard let defaultImageData = UIImage(named: "cash")?.pngData() else{return}
-//                guard let container = container else{return}
-//                let nm = Member(context: container.viewContext)
-//                nm.createdAt = Date()
-//                nm.emailID = emailTextField.text!
-//                nm.id = UUID().uuidString
-//                nm.imageData = imageData ?? defaultImageData
-//                nm.lastEditedAt = Date()
-//                nm.name = nameTextField.text!
-//                let nd = MemberInfo(context: container.viewContext)
-//                nd.joiningDate = Date()
-//                nd.position = "member hai"
-//                nd.member = nm
-//                nd.ofGroup = selectedGroup!
-//                nd.transactions = []
-//                if container.viewContext.hasChanges{
-//                    do{
-//                        try container.viewContext.save()
-//                    }catch{
-//                        fatalError()
-//                    }
-//                }
-//                navigationController?.popViewController(animated: true)
-//            }else{
-//                print("invalid email")
-//            }
-//            
-//        }
-//    }
-    
-    var container = AppDelegate.container
-    
-    var selectedGroup: Group?
-    
-    lazy var imagePicker = UIImagePickerController()
-    
-    var imageData: Data?{
-        didSet{
-            memberImageView.image = UIImage(data: imageData!)
-        }
-    }
     
 }
 extension AddNewMemberViewController: UITextFieldDelegate{

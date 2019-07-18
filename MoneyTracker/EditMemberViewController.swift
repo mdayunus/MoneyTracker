@@ -14,11 +14,11 @@ class EditMemberViewController: UIViewController {
     
     var container = AppDelegate.container
     
-    var selectedMember: Member!{
+    var selectedMemberInfo: MemberInfo!{
         didSet{
-            print(selectedMember.memberInfo.name)
+            print(selectedMemberInfo.name)
             do{
-                try selectedMember.validateForUpdate()
+                try selectedMemberInfo.validateForUpdate()
             }catch{
                 print("not valid for update")
                 navigationController?.popViewController(animated: true)
@@ -46,55 +46,10 @@ class EditMemberViewController: UIViewController {
     
     @IBOutlet weak var memberNewEmailTextField: UITextField!
     
-    @IBAction func saveChangesButton(_ sender: UIButton) {
-        guard let pContainer = container else{return}
-        guard let newEmail = memberNewEmailTextField.text, let newName = memberNewNameTextField.text else{return}
-        
-        if !newName.isEmpty{
-            selectedMember.setValue(newName, forKey: "name")
-            selectedMember.memberInfo.lastEditedAt = Date()
-        }
-        
-        if !newEmail.isEmpty{
-            if newEmail.validateEmail(){
-                selectedMember.setValue(newEmail, forKey: "emailID")
-                selectedMember.memberInfo.lastEditedAt = Date()
-            }
-        }
-        
-        if !imageData.isEmpty{
-            selectedMember.setValue(imageData, forKey: "imageData")
-            selectedMember.memberInfo.lastEditedAt = Date()
-        }
-        
-        if pContainer.viewContext.hasChanges{
-            do{
-                try pContainer.viewContext.save()
-                navigationController?.popViewController(animated: true)
-            }catch{
-                fatalError()
-            }
-        }
-    }
-    
     @IBOutlet weak var memberLastEditedAtLabel: UILabel!
     
     @IBOutlet weak var alertLabel: UILabel!
     
-    
-    // view controller life cycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        print(imageData.isEmpty)
-        memberImageView.image = UIImage(data: selectedMember.memberInfo.imageData)
-        memberIDLabel.text = selectedMember.memberInfo.id
-        memberCreatedAtLabel.text = selectedMember.memberInfo.createdAt.DateInString
-        memberNewNameTextField.placeholder = selectedMember.memberInfo.name
-        memberNewEmailTextField.placeholder = selectedMember.memberInfo.emailID
-        memberLastEditedAtLabel.text = selectedMember.memberInfo.lastEditedAt.DateInString
-        alertLabel.text = "Tap on Image to change"
-    }
     
     // helper methods
     
@@ -121,8 +76,53 @@ class EditMemberViewController: UIViewController {
     }
     
     
+    // actions
+    
+    @IBAction func saveChangesButton(_ sender: UIButton) {
+        guard let pContainer = container else{return}
+        guard let newEmail = memberNewEmailTextField.text, let newName = memberNewNameTextField.text else{return}
+        
+        if !newName.isEmpty{
+            selectedMemberInfo.setValue(newName, forKey: "name")
+            selectedMemberInfo.lastEditedAt = Date()
+        }
+        
+        if !newEmail.isEmpty{
+            if newEmail.validateEmail(){
+                selectedMemberInfo.setValue(newEmail, forKey: "emailID")
+                selectedMemberInfo.lastEditedAt = Date()
+            }
+        }
+        
+        if !imageData.isEmpty{
+            selectedMemberInfo.setValue(imageData, forKey: "imageData")
+            selectedMemberInfo.lastEditedAt = Date()
+        }
+        
+        if pContainer.viewContext.hasChanges{
+            do{
+                try pContainer.viewContext.save()
+                navigationController?.popViewController(animated: true)
+            }catch{
+                fatalError()
+            }
+        }
+    }
     
     
+    // view controller life cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print(imageData.isEmpty)
+        memberImageView.image = UIImage(data: selectedMemberInfo.imageData)
+        memberIDLabel.text = selectedMemberInfo.id
+        memberCreatedAtLabel.text = selectedMemberInfo.createdAt.DateInString
+        memberNewNameTextField.placeholder = selectedMemberInfo.name
+        memberNewEmailTextField.placeholder = selectedMemberInfo.emailID
+        memberLastEditedAtLabel.text = selectedMemberInfo.lastEditedAt.DateInString
+        alertLabel.text = "Tap on Image to change"
+    }
     
     
 }

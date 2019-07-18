@@ -2,7 +2,7 @@
 //  Member+CoreDataProperties.swift
 //  MoneyTracker
 //
-//  Created by Mohammad Yunus on 14/07/19.
+//  Created by Mohammad Yunus on 16/07/19.
 //  Copyright © 2019 simpleApp. All rights reserved.
 //
 //
@@ -20,7 +20,7 @@ extension Member {
     @NSManaged public var joiningDate: Date
     @NSManaged public var position: String
     @NSManaged public var memberInfo: MemberInfo
-    @NSManaged public var transactions: NSSet
+    @NSManaged public var transactions: Set<Transaction>
     @NSManaged public var inGroup: Group
 
 }

@@ -231,7 +231,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zx8-9x-KZy">
-                                <rect key="frame" x="0.0" y="518" width="414" height="378"/>
+                                <rect key="frame" x="0.0" y="458" width="414" height="438"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" id="cSA-Ke-9zb">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
@@ -266,7 +266,7 @@
                                 </prototypes>
                             </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="jav-RM-yk0">
-                                <rect key="frame" x="20" y="98" width="374" height="410"/>
+                                <rect key="frame" x="20" y="98" width="374" height="350"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="amount" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IfG-kJ-JIv">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="50"/>
@@ -286,28 +286,8 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="NUN-91-Fwk">
-                                        <rect key="frame" x="0.0" y="120" width="374" height="50"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="debit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hkU-SX-cdO">
-                                                <rect key="frame" x="0.0" y="0.0" width="315" height="50"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="UvQ-R3-EAU"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0k1-AT-1B7">
-                                                <rect key="frame" x="325" y="9.5" width="51" height="31"/>
-                                                <connections>
-                                                    <action selector="creditOrDebitAction:" destination="ZJn-PQ-I8s" eventType="valueChanged" id="1t6-XV-76w"/>
-                                                </connections>
-                                            </switch>
-                                        </subviews>
-                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="cST-5i-oJ8">
-                                        <rect key="frame" x="0.0" y="180" width="374" height="50"/>
+                                        <rect key="frame" x="0.0" y="120" width="374" height="50"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="cash" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2kf-ob-sPa">
                                                 <rect key="frame" x="0.0" y="0.0" width="315" height="50"/>
@@ -327,7 +307,7 @@
                                         </subviews>
                                     </stackView>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="cheque number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8UU-Tn-EnV">
-                                        <rect key="frame" x="0.0" y="240" width="374" height="50"/>
+                                        <rect key="frame" x="0.0" y="180" width="374" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Qab-mJ-PUY"/>
                                         </constraints>
@@ -336,7 +316,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="cheque date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Y4w-aj-uCN">
-                                        <rect key="frame" x="0.0" y="300" width="374" height="50"/>
+                                        <rect key="frame" x="0.0" y="240" width="374" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="55h-ZS-aw9"/>
                                         </constraints>
@@ -345,7 +325,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="wEJ-eH-W1o">
-                                        <rect key="frame" x="0.0" y="360" width="374" height="50"/>
+                                        <rect key="frame" x="0.0" y="300" width="374" height="50"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't Remind" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b8v-x5-DF1">
                                                 <rect key="frame" x="0.0" y="0.0" width="315" height="50"/>
@@ -385,11 +365,9 @@
                         <outlet property="cashOrcheque" destination="wnr-EK-7Ho" id="g4J-FZ-AuH"/>
                         <outlet property="chequeDateField" destination="Y4w-aj-uCN" id="IP3-xS-OpU"/>
                         <outlet property="chequeNumberField" destination="8UU-Tn-EnV" id="Ynw-yb-Bme"/>
-                        <outlet property="creditOrDebit" destination="0k1-AT-1B7" id="Vgs-Qa-7dh"/>
-                        <outlet property="creditOrDebitLabel" destination="hkU-SX-cdO" id="Dku-e6-zx0"/>
                         <outlet property="memberSearchBar" destination="cSA-Ke-9zb" id="pPO-yU-Gtm"/>
                         <outlet property="memberTableView" destination="zx8-9x-KZy" id="8Dt-0e-wGA"/>
-                        <outlet property="noteOrPurpose" destination="g40-KV-r6y" id="NU4-8e-1yz"/>
+                        <outlet property="purposeTextField" destination="g40-KV-r6y" id="nrv-VM-Ma7"/>
                         <outlet property="remind" destination="wEJ-eH-W1o" id="eJQ-ZU-C7H"/>
                         <outlet property="remindMe" destination="3dq-oV-QpC" id="zde-mI-HBz"/>
                         <outlet property="remindMeLabel" destination="b8v-x5-DF1" id="5OZ-Hq-hEy"/>
@@ -939,7 +917,6 @@
                     <connections>
                         <segue destination="UE0-8z-Eh2" kind="relationship" relationship="viewControllers" id="Iw7-wR-gGU"/>
                         <segue destination="Mbi-SY-U5J" kind="relationship" relationship="viewControllers" id="IYF-f1-4wM"/>
-                        <segue destination="49f-1C-5dc" kind="relationship" relationship="viewControllers" id="7XG-FK-QUr"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vgD-Yn-T75" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1551,47 +1528,6 @@
             </objects>
             <point key="canvasLocation" x="4240.579710144928" y="63.616071428571423"/>
         </scene>
-        <!--Notification View Controller-->
-        <scene sceneID="3HK-Ww-jqC">
-            <objects>
-                <viewController id="ovf-gw-U1i" customClass="NotificationViewController" customModule="MoneyTracker" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="qt5-YJ-8gA">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UvE-PL-0EF">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="bcL-oH-eax">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bcL-oH-eax" id="7bI-bC-hH5">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="UvE-PL-0EF" firstAttribute="leading" secondItem="fWM-ww-Xor" secondAttribute="leading" id="NRK-NW-Dnw"/>
-                            <constraint firstItem="UvE-PL-0EF" firstAttribute="top" secondItem="fWM-ww-Xor" secondAttribute="top" id="PJV-ks-NYj"/>
-                            <constraint firstItem="fWM-ww-Xor" firstAttribute="bottom" secondItem="UvE-PL-0EF" secondAttribute="bottom" id="QmE-ul-h56"/>
-                            <constraint firstItem="fWM-ww-Xor" firstAttribute="trailing" secondItem="UvE-PL-0EF" secondAttribute="trailing" id="v1v-s4-gON"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="fWM-ww-Xor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="lNw-nA-rEc"/>
-                    <connections>
-                        <outlet property="notificationTableView" destination="UvE-PL-0EF" id="xWv-JL-xKi"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JQ4-8g-BGj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1744.9275362318842" y="-1368.0803571428571"/>
-        </scene>
         <!--Groups-->
         <scene sceneID="7do-oX-try">
             <objects>
@@ -1749,25 +1685,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="INk-51-KII" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="141" y="64"/>
-        </scene>
-        <!--Notification Center-->
-        <scene sceneID="Iy7-zu-meI">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="49f-1C-5dc" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Notification Center" id="D7J-uE-c1H"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="e6i-ad-IPu">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="ovf-gw-U1i" kind="relationship" relationship="rootViewController" id="Cdv-cu-uVT"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Rbh-SD-BmS" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="834.78260869565224" y="-1368.0803571428571"/>
         </scene>
     </scenes>
     <resources>

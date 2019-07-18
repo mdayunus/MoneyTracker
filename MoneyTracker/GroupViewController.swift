@@ -15,37 +15,53 @@ class GroupViewController: UIViewController {
     
     var daysInGroup = [Day]()
     
+    var container = AppDelegate.container
+    
+    var selectedGroup: Group!
+    
+    
+    // outlets
+    
     @IBOutlet weak var transactionsTableView: UITableView!{
         didSet{
             transactionsTableView.delegate = self
             transactionsTableView.dataSource = self
         }
     }
+    
+    
+    // helper method
+    
+    @objc func getTransactionDetail(){
+        let x = selectedGroup!.days
+        daysInGroup = Array(x)
+        //        daysInGroup.sort { (one, two) -> Bool in
+        //            return one.day > two.day
+        //        }
+        transactionsTableView.reloadData()
+    }
+    
+    
+    // actions
+    
     @IBAction func closeGroup(_ sender: UIBarButtonItem) {
         presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
-    var container = AppDelegate.container
     
-    var selectedGroup: Group?
-
-    @objc func getTransactionDetail(){
-        guard let x = selectedGroup?.day as? Set<Day> else{return}
-        daysInGroup = Array(x)
-        daysInGroup.sort { (one, two) -> Bool in
-            return one.day > two.day
-        }
-        transactionsTableView.reloadData()
-    }
+    // view controller life cycle
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        let x = selectedGroup!.getTotalDebit()
+        print(x)
         navigationItem.title = selectedGroup?.name
         getTransactionDetail()
         NotificationCenter.default.addObserver(self, selector: #selector(getTransactionDetail), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
     
+    
+    // segues
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
@@ -71,33 +87,48 @@ extension GroupViewController: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = Bundle.main.loadNibNamed("TransactionCell", owner: self, options: nil)?.first as! TransactionCell
-        guard let transaction = daysInGroup[indexPath.section].transactions[indexPath.row] as? Transaction else{return cell}
+        let tr = daysInGroup[indexPath.section].transactions
+        let tra = Array(tr)
+        let transaction = tra[indexPath.row]
         cell.userImageView.image = UIImage(data: transaction.byMember.memberInfo.imageData)
         cell.memberName.text = transaction.byMember.memberInfo.name
-//        if transactionList[indexPath.row].creditOrDebit == CreditOrDebit.debit.rawValue{
-//            cell?.amount.textColor = UIColor.red
-//        }
+        if transaction.creditOrDebit == false{
+            cell.amount.textColor = UIColor.red
+            cell.amount.text = "\(transaction.credit.amount)"
+            cell.reason.text = transaction.credit.note
+        }else if transaction.creditOrDebit == true{
+            
+            cell.amount.text = "\(transaction.debit.amount)"
+            cell.reason.text = transaction.debit.purpose
+        }
         cell.madeAt.text = transaction.madeAt.DateInString
         if transaction.cashOrCheque == CashOrCheque.cash.inString{
             cell.cocImageView.image = #imageLiteral(resourceName: "money")
         }else{
             cell.cocImageView.image = #imageLiteral(resourceName: "check book")
         }
-        cell.amount.text = "\(transaction.debit.amount)"
-        cell.reason.text = transaction.debit.purpose
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //go to detail view and show detail of transaction
         if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.selectedTransactionDetailTVC) as? SelectedTransactionDetailTableViewController{
-            dvc.selectedTransaction = daysInGroup[indexPath.section].transactions[indexPath.row] as? Transaction
+            let tr = daysInGroup[indexPath.section].transactions
+            let tra = Array(tr)
+            dvc.selectedTransaction = tra[indexPath.row]
             navigationController?.show(dvc, sender: self)
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 86.5
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        print(daysInGroup[section].day)
+        return "\(Calendar.current.date(from: daysInGroup[section].day)!.DateInString) \(daysInGroup[section].getTotalDebit())"
+        
     }
     
     

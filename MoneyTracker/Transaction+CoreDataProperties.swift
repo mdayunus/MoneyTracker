@@ -2,7 +2,7 @@
 //  Transaction+CoreDataProperties.swift
 //  MoneyTracker
 //
-//  Created by Mohammad Yunus on 14/07/19.
+//  Created by Mohammad Yunus on 16/07/19.
 //  Copyright © 2019 simpleApp. All rights reserved.
 //
 //
@@ -21,9 +21,9 @@ extension Transaction {
     @NSManaged public var id: String
     @NSManaged public var madeAt: Date
     @NSManaged public var creditOrDebit: Bool
-    @NSManaged public var byMember: Member
     @NSManaged public var credit: Credit
     @NSManaged public var debit: Debit
-    @NSManaged public var onDay: Day
+    @NSManaged public var byMember: Member
+    @NSManaged public var invOnDay: Day
 
 }

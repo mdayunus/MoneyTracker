@@ -2,7 +2,7 @@
 //  Credit+CoreDataProperties.swift
 //  MoneyTracker
 //
-//  Created by Mohammad Yunus on 14/07/19.
+//  Created by Mohammad Yunus on 16/07/19.
 //  Copyright © 2019 simpleApp. All rights reserved.
 //
 //
@@ -19,6 +19,6 @@ extension Credit {
 
     @NSManaged public var amount: Double
     @NSManaged public var note: String
-    @NSManaged public var creditTransaction: Transaction
+    @NSManaged public var invCredit: Transaction
 
 }

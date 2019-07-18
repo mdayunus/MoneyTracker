@@ -10,8 +10,15 @@ import UIKit
 
 class MemberTransactionDetailInGroupViewController: UIViewController {
     
-    // outlets
     
+    // properties
+    
+    var allTransactions: [Transaction]?
+    var selectedMember: Member!
+    var selectedGroup: Group?
+    
+    
+    // outlets
     
     @IBOutlet weak var backgroundView: UIView!{
         didSet{
@@ -29,32 +36,36 @@ class MemberTransactionDetailInGroupViewController: UIViewController {
         }
     }
     
+    
+    // helper methods
+    
     @objc func createNewTransaction(){
         if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.newTransactionInVC) as? NewTransactionInViewController{
-            dvc.selectedMemberInfo = selectedMemberInfo
+            dvc.selectedMember = selectedMember
             dvc.selectedGroup = selectedGroup
             navigationController?.show(dvc, sender: self)
         }
     }
     
     @objc func getTransations(){
-        guard let tset = selectedMemberInfo?.info.transactions as? Set<Transaction> else{return}
+        let tset = selectedMember.transactions
         allTransactions = Array(tset)
         MemberTransactionDetailTableView.reloadData()
     }
+    
+    
+    // view controller life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(selectedMember.getTotalDebit())
         getTransations()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createNewTransaction))
         navigationItem.title = selectedGroup?.name
         NotificationCenter.default.addObserver(self, selector: #selector(getTransations), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
     
-    var allTransactions: [Transaction]?
-    var selectedMemberInfo: MemberInfo!
-    var selectedGroup: Group?
-
+    
 }
 extension MemberTransactionDetailInGroupViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -65,9 +76,6 @@ extension MemberTransactionDetailInGroupViewController: UITableViewDelegate, UIT
         let cell = Bundle.main.loadNibNamed("TransactionCell", owner: self, options: nil)?.first as? TransactionCell
         cell?.userImageView.image = UIImage(data: (allTransactions?[indexPath.row].byMember.memberInfo.imageData)!)
         cell?.memberName.text = allTransactions?[indexPath.row].byMember.memberInfo.name
-//        if allTransactions?[indexPath.row].creditOrDebit == CreditOrDebit.debit.rawValue{
-//            cell?.amount.textColor = UIColor.red
-//        }
         cell?.madeAt.text = allTransactions?[indexPath.row].madeAt.description
         if allTransactions?[indexPath.row].cashOrCheque == CashOrCheque.cash.inString{
             cell?.cocImageView.image = #imageLiteral(resourceName: "money")
