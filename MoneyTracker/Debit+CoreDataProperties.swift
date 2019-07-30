@@ -2,7 +2,7 @@
 //  Debit+CoreDataProperties.swift
 //  MoneyTracker
 //
-//  Created by Mohammad Yunus on 16/07/19.
+//  Created by Mohammad Yunus on 29/07/19.
 //  Copyright © 2019 simpleApp. All rights reserved.
 //
 //

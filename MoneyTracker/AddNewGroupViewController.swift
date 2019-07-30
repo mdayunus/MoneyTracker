@@ -34,9 +34,12 @@ class AddNewGroupViewController: UIViewController {
             guard let container = pContainer else {return}
             let newGroup = Group(context: container.viewContext)
             newGroup.createdAt = Date()
+            newGroup.groupimage = UIImage(named: "cash")!.jpegData(compressionQuality: 40)!
             newGroup.id = UUID().uuidString
             newGroup.lastEdited = Date()
             newGroup.name = nameTextField.text!
+            newGroup.totalgroupcredit = 0
+            newGroup.totalgroupdebit = 0
             newGroup.days = []
             newGroup.members = []
             if container.viewContext.hasChanges{
@@ -50,7 +53,7 @@ class AddNewGroupViewController: UIViewController {
         }
     }
     
-
+    
 }
 extension AddNewGroupViewController: UITextFieldDelegate{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

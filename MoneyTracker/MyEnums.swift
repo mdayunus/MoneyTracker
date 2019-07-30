@@ -96,7 +96,7 @@ struct Alert {
     
     static func zeroMemberInGroup(on vc: UIViewController, with action: UIAlertAction){
         let alertController = UIAlertController(title: "No member", message: "you cannot add transaction is number of member in group is zero", preferredStyle: .alert)
-    alertController.addAction(action)
+        alertController.addAction(action)
         vc.present(alertController, animated: true, completion: nil)
     }
 }

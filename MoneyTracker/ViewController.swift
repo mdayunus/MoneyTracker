@@ -52,9 +52,11 @@ class ViewController: UIViewController {
         navigationItem.title = "Groups"
         getGroupData()
         NotificationCenter.default.addObserver(self, selector: #selector(getGroupData), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
+        
+        
     }
-
-
+    
+    
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource{

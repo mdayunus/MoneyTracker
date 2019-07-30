@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="18G84" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Credit" representedClassName=".Credit" syncable="YES">
         <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="note" attributeType="String" syncable="YES"/>
@@ -7,6 +7,8 @@
     </entity>
     <entity name="Day" representedClassName=".Day" syncable="YES">
         <attribute name="day" attributeType="Transformable" syncable="YES"/>
+        <attribute name="totaldaycredit" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="totaldaydebit" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="invInGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="days" inverseEntity="Group" syncable="YES"/>
         <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="invOnDay" inverseEntity="Transaction" syncable="YES"/>
     </entity>
@@ -17,15 +19,20 @@
     </entity>
     <entity name="Group" representedClassName=".Group" syncable="YES">
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="groupimage" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="lastEdited" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="totalgroupcredit" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="totalgroupdebit" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="days" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Day" inverseName="invInGroup" inverseEntity="Day" syncable="YES"/>
         <relationship name="members" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Member" inverseName="inGroup" inverseEntity="Member" syncable="YES"/>
     </entity>
     <entity name="Member" representedClassName=".Member" syncable="YES">
         <attribute name="joiningDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="position" attributeType="String" syncable="YES"/>
+        <attribute name="totalmembercredit" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="totalmemberdebit" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="inGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="members" inverseEntity="Group" syncable="YES"/>
         <relationship name="memberInfo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MemberInfo" inverseName="info" inverseEntity="MemberInfo" syncable="YES"/>
         <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="byMember" inverseEntity="Transaction" syncable="YES"/>
@@ -34,7 +41,7 @@
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="emailID" attributeType="String" syncable="YES"/>
         <attribute name="id" attributeType="String" syncable="YES"/>
-        <attribute name="imageData" attributeType="Binary" syncable="YES"/>
+        <attribute name="imageData" attributeType="Transformable" syncable="YES"/>
         <attribute name="lastEditedAt" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <relationship name="info" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Member" inverseName="memberInfo" inverseEntity="Member" syncable="YES"/>
@@ -50,12 +57,12 @@
         <relationship name="invOnDay" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="transactions" inverseEntity="Day" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Day" positionX="117.4140625" positionY="-233.94140625" width="128" height="90"/>
-        <element name="MemberInfo" positionX="-352.09765625" positionY="-265.10546875" width="128" height="150"/>
-        <element name="Member" positionX="-99" positionY="-72" width="128" height="120"/>
-        <element name="Transaction" positionX="-91.1484375" positionY="21.40234375" width="128" height="165"/>
-        <element name="Debit" positionX="-117" positionY="-90" width="128" height="90"/>
         <element name="Credit" positionX="-108" positionY="-81" width="128" height="90"/>
-        <element name="Group" positionX="-135" positionY="-108" width="128" height="135"/>
+        <element name="Day" positionX="117.4140625" positionY="-233.94140625" width="128" height="120"/>
+        <element name="Debit" positionX="-117" positionY="-90" width="128" height="90"/>
+        <element name="Group" positionX="-135" positionY="-108" width="128" height="180"/>
+        <element name="Member" positionX="-99" positionY="-72" width="128" height="150"/>
+        <element name="MemberInfo" positionX="-352.09765625" positionY="-265.10546875" width="128" height="150"/>
+        <element name="Transaction" positionX="-91.1484375" positionY="21.40234375" width="128" height="165"/>
     </elements>
 </model>

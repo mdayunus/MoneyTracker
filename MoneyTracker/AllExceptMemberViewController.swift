@@ -26,7 +26,7 @@ class AllExceptMemberViewController: UIViewController {
     
     
     // outlets
-
+    
     @IBOutlet weak var allExceptMemberTableView: UITableView!{
         didSet{
             allExceptMemberTableView.delegate = self
@@ -47,11 +47,11 @@ class AllExceptMemberViewController: UIViewController {
             return !memberInfoOfMembersInGroup.contains(element)
         })
     }
-
+    
 }
 extension AllExceptMemberViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return allExceptMembers.count
+        return allExceptMembers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -68,6 +68,8 @@ extension AllExceptMemberViewController: UITableViewDelegate, UITableViewDataSou
         let nm = Member(context: container.viewContext)
         nm.joiningDate = Date()
         nm.position = "some position"
+        nm.totalmembercredit = 0
+        nm.totalmemberdebit = 0
         nm.inGroup = group
         nm.memberInfo = memberInfo
         nm.transactions = []

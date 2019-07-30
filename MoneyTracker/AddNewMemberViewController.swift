@@ -85,6 +85,8 @@ class AddNewMemberViewController: UIViewController {
                 let nm = Member(context: container.viewContext)
                 nm.joiningDate = Date()
                 nm.position = "some position"
+                nm.totalmemberdebit = 0
+                nm.totalmembercredit = 0
                 nm.inGroup = group
                 
                 let nmi = MemberInfo(context: container.viewContext)
@@ -154,8 +156,8 @@ extension AddNewMemberViewController: UIImagePickerControllerDelegate, UINavigat
 }
 
 extension String{
-        func validateEmail() -> Bool{
-            let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-            return NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: self)
+    func validateEmail() -> Bool{
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        return NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: self)
     }
 }

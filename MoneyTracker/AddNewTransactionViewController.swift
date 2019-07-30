@@ -34,7 +34,7 @@ class AddNewTransactionViewController: UIViewController {
     var selectedGroup: Group?
     
     let todayComponent = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-//    var selectedDate: Day?
+    //    var selectedDate: Day?
     
     
     // outlets
@@ -184,7 +184,7 @@ class AddNewTransactionViewController: UIViewController {
         super.viewDidLoad()
         getMemberData()
     }
-
+    
 }
 
 extension AddNewTransactionViewController: UITableViewDelegate, UITableViewDataSource{
@@ -212,7 +212,7 @@ extension AddNewTransactionViewController: UITableViewDelegate, UITableViewDataS
         let dayArr = Array(days)
         let dayCount = dayArr.count
         if dayCount == 0{
-//            selectedDay = dayArr[0]
+            //            selectedDay = dayArr[0]
         }else{
             selectedDay = dayArr[dayCount - 1]
         }
@@ -233,16 +233,25 @@ extension AddNewTransactionViewController: UITableViewDelegate, UITableViewDataS
                         nt.creditOrDebit = true
                         nt.id = uuidString
                         nt.madeAt = Date()
-                        nt.byMember = memberList[indexPath.row]
+                        //                        nt.byMember = memberList[indexPath.row]
                         let nDebit = Debit(context: container.viewContext)
                         nDebit.amount = amountInDouble //90
                         nDebit.purpose = purposeTextField.text! //"this is a note"
                         nt.debit = nDebit
+                        let sm = memberList[indexPath.row]
+                        sm.totalmembercredit = sm.totalmembercredit + 0
+                        sm.totalmemberdebit = sm.totalmemberdebit + nDebit.amount
+                        nt.byMember = sm
                         let today = Day(context: container.viewContext)
                         today.day = todayComponent
-                        today.invInGroup = group
+                        today.totaldaycredit = 0
+                        today.totaldaydebit = nDebit.amount
+                        //                        today.invInGroup = group
+                        let g = group
+                        g.totalgroupdebit = nDebit.amount
+                        g.totalgroupcredit = 0
+                        today.invInGroup = g
                         today.transactions = []
-                        
                         nt.invOnDay = today
                         try? container.viewContext.save()
                         navigationController?.popViewController(animated: true)
@@ -254,11 +263,21 @@ extension AddNewTransactionViewController: UITableViewDelegate, UITableViewDataS
                         nt.creditOrDebit = true
                         nt.id = uuidString
                         nt.madeAt = Date()
-                        nt.byMember = memberList[indexPath.row]
+                        //                        nt.byMember = memberList[indexPath.row]
                         let nDebit = Debit(context: container.viewContext)
                         nDebit.amount = amountInDouble //90
                         nDebit.purpose = purposeTextField.text! //"this is a note"
                         nt.debit = nDebit
+                        let sm = memberList[indexPath.row]
+                        sm.totalmembercredit = sm.totalmembercredit + 0
+                        sm.totalmemberdebit = sm.totalmemberdebit + nDebit.amount
+                        nt.byMember = sm
+                        selectedDay.totaldaydebit = selectedDay.totaldaydebit + nDebit.amount
+                        selectedDay.totaldaycredit = selectedDay.totaldaycredit + 0
+                        let g = group
+                        g.totalgroupdebit = g.totalgroupdebit + nDebit.amount
+                        g.totalgroupcredit = g.totalgroupcredit + 0
+                        //                        selectedDay.invInGroup = g
                         nt.invOnDay = selectedDay
                         try? container.viewContext.save()
                         navigationController?.popViewController(animated: true)
@@ -276,14 +295,23 @@ extension AddNewTransactionViewController: UITableViewDelegate, UITableViewDataS
                                 nt.creditOrDebit = true
                                 nt.id = uuidString
                                 nt.madeAt = Date()
-                                nt.byMember = memberList[indexPath.row]
+                                //                                nt.byMember = memberList[indexPath.row]
                                 let nDebit = Debit(context: container.viewContext)
                                 nDebit.amount = amountInDouble //90
                                 nDebit.purpose = purposeTextField.text! //"this is a note"
                                 nt.debit = nDebit
+                                let sm = memberList[indexPath.row]
+                                sm.totalmembercredit = sm.totalmembercredit + 0
+                                sm.totalmemberdebit = sm.totalmemberdebit + nDebit.amount
+                                nt.byMember = sm
                                 let today = Day(context: container.viewContext)
                                 today.day = todayComponent
-                                today.invInGroup = group
+                                today.totaldaycredit = 0
+                                today.totaldaydebit = nDebit.amount
+                                let g = group
+                                g.totalgroupcredit = g.totalgroupcredit + 0
+                                g.totalgroupdebit = g.totalgroupdebit + nDebit.amount
+                                today.invInGroup = g
                                 today.addToTransactions(nt)
                                 today.transactions = []
                                 nt.invOnDay = today
@@ -297,13 +325,21 @@ extension AddNewTransactionViewController: UITableViewDelegate, UITableViewDataS
                                 nt.creditOrDebit = true
                                 nt.id = uuidString
                                 nt.madeAt = Date()
-                                nt.byMember = memberList[indexPath.row]
+                                //                                nt.byMember = memberList[indexPath.row]
                                 let nDebit = Debit(context: container.viewContext)
                                 nDebit.amount = amountInDouble //90
                                 nDebit.purpose = purposeTextField.text! //"this is a note"
                                 nt.debit = nDebit
+                                let sm = memberList[indexPath.row]
+                                sm.totalmembercredit = sm.totalmembercredit + 0
+                                sm.totalmemberdebit = sm.totalmemberdebit + nDebit.amount
+                                nt.byMember = sm
+                                selectedDay.totaldaydebit = selectedDay.totaldaydebit + nDebit.amount
+                                selectedDay.totaldaycredit = selectedDay.totaldaycredit + 0
+                                let g = group
+                                g.totalgroupdebit = g.totalgroupdebit + nDebit.amount
+                                g.totalgroupcredit = g.totalgroupcredit + 0
                                 nt.invOnDay = selectedDay
-//                                selectedDay.invInGroup = group
                                 try? container.viewContext.save()
                                 navigationController?.popViewController(animated: true)
                             }
@@ -319,14 +355,23 @@ extension AddNewTransactionViewController: UITableViewDelegate, UITableViewDataS
                                 nt.creditOrDebit = true
                                 nt.id = uuidString
                                 nt.madeAt = Date()
-                                nt.byMember = memberList[indexPath.row]
+                                //                                nt.byMember = memberList[indexPath.row]
                                 let nDebit = Debit(context: container.viewContext)
                                 nDebit.amount = amountInDouble //90
                                 nDebit.purpose = purposeTextField.text! //"this is a note"
                                 nt.debit = nDebit
+                                let sm = memberList[indexPath.row]
+                                sm.totalmembercredit = sm.totalmembercredit + 0
+                                sm.totalmemberdebit = sm.totalmemberdebit + nDebit.amount
+                                nt.byMember = sm
                                 let today = Day(context: container.viewContext)
                                 today.day = todayComponent
-                                today.invInGroup = group
+                                today.totaldaycredit = 0
+                                today.totaldaydebit = nDebit.amount
+                                let g = group
+                                g.totalgroupcredit = g.totalgroupcredit + 0
+                                g.totalgroupdebit = g.totalgroupdebit + nDebit.amount
+                                today.invInGroup = g
                                 today.addToTransactions(nt)
                                 today.transactions = []
                                 nt.invOnDay = today
@@ -341,11 +386,20 @@ extension AddNewTransactionViewController: UITableViewDelegate, UITableViewDataS
                                 nt.creditOrDebit = true
                                 nt.id = uuidString
                                 nt.madeAt = Date()
-                                nt.byMember = memberList[indexPath.row]
+                                //                                nt.byMember = memberList[indexPath.row]
                                 let nDebit = Debit(context: container.viewContext)
                                 nDebit.amount = amountInDouble //90
                                 nDebit.purpose = purposeTextField.text! //"this is a note"
                                 nt.debit = nDebit
+                                let sm = memberList[indexPath.row]
+                                sm.totalmembercredit = sm.totalmembercredit + 0
+                                sm.totalmemberdebit = sm.totalmemberdebit + nDebit.amount
+                                nt.byMember = sm
+                                selectedDay.totaldaydebit = selectedDay.totaldaydebit + nDebit.amount
+                                selectedDay.totaldaycredit = selectedDay.totaldaycredit + 0
+                                let g = group
+                                g.totalgroupdebit = g.totalgroupdebit + nDebit.amount
+                                g.totalgroupcredit = g.totalgroupcredit + 0
                                 nt.invOnDay = selectedDay
                                 
                                 cdc.hour = Cheque.timeHour
@@ -401,238 +455,7 @@ extension AddNewTransactionViewController: UITableViewDelegate, UITableViewDataS
             //alert amount or purpose is empty
             Alert.textFieldIsEmpty(name: amountTextField, purposeTextField, on: self)
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-//        if dayArr.count == 0{
-//            print("no day")
-//            let nday = Day(context: container.viewContext)
-//            nday.day = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-//            nday.invInGroup = group
-//            let nt = Transaction(context: container.viewContext)
-//            nt.cashOrCheque = ["cash"]
-//            nt.creditOrDebit = false
-//            nt.id = "thisisanid"
-//            nt.madeAt = Date()
-//            nt.byMember = memberList[indexPath.row]
-//            let nCredit = Credit(context: container.viewContext)
-//            nCredit.amount = 90
-//            nCredit.note = "this is a note"
-//            nt.credit = nCredit
-//            nday.addToTransactions(nt)
-//            try? container.viewContext.save()
-//            navigationController?.popViewController(animated: true)
-//        }else{
-//            print("some day")
-//            let c = dayArr.count
-//            let selectDay = dayArr[c-1]
-//            if selectDay.day == Calendar.current.dateComponents([.year, .month, .day], from: Date()){
-//                print("already in day")
-//                let nt = Transaction(context: container.viewContext)
-//                nt.cashOrCheque = ["cheque"]
-//                nt.creditOrDebit = false
-//                nt.id = "this is cheque wale trans ki id"
-//                nt.madeAt = Date()
-//                nt.byMember = memberList[indexPath.row]
-////                let nCredit = Credit(context: container.viewContext)
-////                nCredit.amount = 90
-////                nCredit.note = "this is a note"
-////                nt.credit = nCredit
-//                let nDebit = Debit(context: container.viewContext)
-//                nDebit.amount = 80
-//                nDebit.purpose = "this is the purpose"
-//                nt.debit = nDebit
-//                nt.invOnDay = selectDay
-////                selectDay.invInGroup = group
-//
-//                try? container.viewContext.save()
-//                navigationController?.popViewController(animated: true)
-//            }else{
-//                print("not in day")
-//                let nd = Day(context: container.viewContext)
-//                nd.day = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-//                nd.invInGroup = group
-//                let nt = Transaction(context: container.viewContext)
-//                nt.cashOrCheque = ["cash"]
-//                nt.creditOrDebit = false
-//                nt.id = "this s id"
-//                nt.madeAt = Date()
-//                nt.byMember = memberList[indexPath.row]
-//                let nc = Credit(context: container.viewContext)
-//                nc.amount = 77
-//                nc.note = "hjgyu"
-//                nt.credit = nc
-//                nd.addToTransactions(nt)
-//                try? container.viewContext.save()
-//                navigationController?.popViewController(animated: true)
-//            }
-//        }
-//        let lastDay = dayArr.last
-        
-        
-        
-//        let nt = Transaction(context: container.viewContext)
-//        nt.creditOrDebit = false // change this to make switch off
-//        nt.id = uuidString
-//        nt.madeAt = Date()
-//
-//        nt.byMember = memberList[indexPath.row]
-//        let ndebit = Debit(context: container.viewContext)
-//        let onday = Day(context: container.viewContext)
-//        onday.day = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-//        onday.invInGroup = group
-//        onday.transactions = [nt]
-//
-//
-//        guard let amountText = amountTextField.text, let noteOrPurposeText = noteOrPurpose.text else{return}
-//
-//        if amountText.isEmpty || noteOrPurposeText.isEmpty{
-//            Alert.textFieldIsEmpty(name: amountTextField, on: self)
-//        }else{
-//            if let amountInDouble = Double(amountText){
-//                ndebit.amount = amountInDouble
-//                ndebit.purpose = noteOrPurposeText
-//
-//
-//                if !cashOrcheque.isOn{
-//                    guard let chequeNumberText = chequeNumberField.text else{return}
-//                    if chequeNumberText.isEmpty  || chequeDateField.text!.isEmpty{
-//                        //show number and date are empty
-//                        print("empty field/s here")
-//                        Alert.textFieldIsEmpty(name: chequeNumberField, on: self)
-//                        memberTableView.deselectRow(at: indexPath, animated: true)
-//                    }else{
-//
-//                        if remindMe.isOn{
-//
-//
-//                            var cdc = cal.dateComponents([.day, .month, .year], from: cdp.date)
-//
-//                            //
-//                            guard let checkTime = cal.date(from: cdc) else{return}
-//
-//                            //
-//
-//                            nt.cashOrCheque = CashOrCheque.cheque(number: chequeNumberText, time: checkTime, remainderUUID: uuidString).inString
-//
-//                            cdc.hour = Cheque.timeHour
-//                            cdc.minute = Cheque.timeMin
-//                            print(cdc)
-//                            current.getNotificationSettings { (ntfctnSetting) in
-//                                switch ntfctnSetting.authorizationStatus{
-//                                case .provisional, .authorized:
-//                                    print("auth")
-//
-//                                    self.scheduleNotification(dateComponents: cdc, amount: ndebit.amount, member: nt.byMember.memberInfo.name, category: self.uuidString)
-//
-//                                case .denied:
-//                                    print("denied")
-//                                    print("ask to go to settings and allow notification")
-//                                case .notDetermined:
-//                                    print("not det")
-//                                    //                                                                print("show go to app setttings and allow notification then come back and save")
-//                                    self.current.requestAuthorization(options: [.alert, .badge, .sound], completionHandler: { (granted, error) in
-//                                        if error != nil{
-//                                            print(error!)
-//                                        }else{
-//                                            if granted == false{
-//                                                print("declined")
-//                                            }else if granted == true{
-//                                                print("granted")
-//                                                self.scheduleNotification(dateComponents: cdc, amount: ndebit.amount, member: nt.byMember.memberInfo.name, category: self.uuidString)
-//                                            }
-//                                        }
-//                                    })
-//                                default:
-//                                    print("default")
-//                                }
-//                            }
-//                            ndebit.amount = amountInDouble
-//                            ndebit.purpose = noteOrPurposeText
-//
-//                            onday.transactions = [nt]
-//                            if container.viewContext.hasChanges{
-//                                do{
-//                                    try container.viewContext.save()
-//                                    print("saved 281")
-//
-//                                }catch{
-//                                    print(error)
-//                                    fatalError()
-//                                }
-//                            }
-//                            navigationController?.popViewController(animated: true)
-//                        }else if !remindMe.isOn{
-//
-//                            let cdc = cal.dateComponents([.day, .month, .year], from: cdp.date)
-//                            guard let checkTime = cal.date(from: cdc) else{return}
-//
-//                            nt.cashOrCheque = CashOrCheque.cheque(number: chequeNumberText, time: checkTime, remainderUUID: "off").inString
-//                            nt.debit = ndebit
-//                            onday.transactions = [nt]
-//                            if container.viewContext.hasChanges{
-//                                do{
-//                                    try container.viewContext.save()
-//                                    print("saved 298")
-//                                }catch{
-//                                    print(error)
-//                                    fatalError()
-//                                }
-//                            }
-//                            navigationController?.popViewController(animated: true)
-//                        }
-//                    }
-//                }else if cashOrcheque.isOn{
-//                    nt.cashOrCheque = CashOrCheque.cash.inString
-//                    nt.debit = ndebit
-//                    onday.transactions = [nt]
-//                    if container.viewContext.hasChanges{
-//                        do{
-//                            try container.viewContext.save()
-//                            print("saved 313")
-//
-//                        }catch{
-//                            fatalError()
-//                        }
-//                    }
-//                    navigationController?.popViewController(animated: true)
-//                }
-//            }else{
-//                // amount is not double
-//                print("amount is not double")
-//                Alert.stringCannotBeConvertedIntoDouble(on: self)
-//            }
-//        }
     }
-    
     
 }
 extension AddNewTransactionViewController: UITextFieldDelegate{
@@ -665,5 +488,8 @@ extension AddNewTransactionViewController: UISearchBarDelegate{
             return mi.memberInfo.name.lowercased().contains(searchText.lowercased())
         })
         memberTableView.reloadData()
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }

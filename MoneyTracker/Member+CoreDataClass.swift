@@ -12,10 +12,20 @@ import CoreData
 
 
 public class Member: NSManagedObject {
-    func getTotalDebit(){
+    func getTotalDebit() -> Double{
         var res: Double = 0
         for t in transactions{
             res = res + t.debit.amount
         }
+        return res
     }
+    
+    func getTotalCredit() -> Double{
+        var res: Double = 0
+        for t in transactions{
+            res = res + t.credit.amount
+        }
+        return res
+    }
+    
 }

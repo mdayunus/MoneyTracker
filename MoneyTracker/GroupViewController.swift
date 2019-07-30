@@ -22,6 +22,24 @@ class GroupViewController: UIViewController {
     
     // outlets
     
+    @IBOutlet weak var containerView: UIView!{
+        didSet{
+            containerView.layer.cornerRadius = 30
+            containerView.layer.masksToBounds = true
+            
+            //            let gradient = CAGradientLayer()
+            //            gradient.frame = containerView.bounds //self.view.bounds
+            //            gradient.colors = [UIColor.red.cgColor, UIColor.blue.cgColor]
+            //            containerView.layer.addSublayer(gradient)
+            //            self.view.layer.addSublayer(gradient)
+            
+        }
+    }
+    
+    @IBOutlet weak var totalCreditLabel: UILabel!
+    
+    @IBOutlet weak var totalDebitLabel: UILabel!
+    
     @IBOutlet weak var transactionsTableView: UITableView!{
         didSet{
             transactionsTableView.delegate = self
@@ -35,9 +53,13 @@ class GroupViewController: UIViewController {
     @objc func getTransactionDetail(){
         let x = selectedGroup!.days
         daysInGroup = Array(x)
-        //        daysInGroup.sort { (one, two) -> Bool in
-        //            return one.day > two.day
-        //        }
+        //                daysInGroup.sort { (one, two) -> Bool in
+        //                    return one.day > two.day
+        //                }
+        totalCreditLabel.text = "\(selectedGroup.getTotalCredit())"
+        totalDebitLabel.text = "\(selectedGroup.getTotalDebit())"
+        print(selectedGroup.totalgroupdebit)
+        print(selectedGroup.totalgroupcredit)
         transactionsTableView.reloadData()
     }
     
@@ -53,8 +75,6 @@ class GroupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let x = selectedGroup!.getTotalDebit()
-        print(x)
         navigationItem.title = selectedGroup?.name
         getTransactionDetail()
         NotificationCenter.default.addObserver(self, selector: #selector(getTransactionDetail), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
@@ -73,7 +93,7 @@ class GroupViewController: UIViewController {
             print("error in segue in groupViewController")
         }
     }
-
+    
 }
 extension GroupViewController: UITableViewDataSource, UITableViewDelegate{
     
@@ -93,11 +113,11 @@ extension GroupViewController: UITableViewDataSource, UITableViewDelegate{
         cell.userImageView.image = UIImage(data: transaction.byMember.memberInfo.imageData)
         cell.memberName.text = transaction.byMember.memberInfo.name
         if transaction.creditOrDebit == false{
-            cell.amount.textColor = UIColor.red
+            
             cell.amount.text = "\(transaction.credit.amount)"
             cell.reason.text = transaction.credit.note
         }else if transaction.creditOrDebit == true{
-            
+            cell.amount.textColor = UIColor.red
             cell.amount.text = "\(transaction.debit.amount)"
             cell.reason.text = transaction.debit.purpose
         }
@@ -122,13 +142,24 @@ extension GroupViewController: UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 86.5
+        return 101
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        print(daysInGroup[section].day)
-        return "\(Calendar.current.date(from: daysInGroup[section].day)!.DateInString) \(daysInGroup[section].getTotalDebit())"
-        
+    //    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    //        print(daysInGroup[section].day)
+    //        return "\(Calendar.current.date(from: daysInGroup[section].day)!.DateInString) debit: \(daysInGroup[section].getTotalDebit())"
+    //
+    //    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let v = Bundle.main.loadNibNamed("SectionHeaderView", owner: self, options: nil)?.first as! SectionHeaderView
+        v.dayLabel.text = "\(Calendar.current.date(from: daysInGroup[section].day)!.DateInString) \(daysInGroup[section].totaldaydebit)"
+        //debit: \(daysInGroup[section].getTotalDebit())"
+        return v
     }
     
     

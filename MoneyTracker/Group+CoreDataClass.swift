@@ -15,11 +15,16 @@ public class Group: NSManagedObject {
     
     func getTotalDebit() -> Double{
         var total: Double = 0
-        for d in days{
-            for t in d.transactions{
-                print(t.debit.amount)
-                total = total + t.debit.amount
-            }
+        for day in days{
+            total = total + day.getTotalDebit()
+        }
+        return total
+    }
+    
+    func getTotalCredit() -> Double{
+        var total: Double = 0
+        for day in days{
+            total = total + day.getTotalCredit()
         }
         return total
     }

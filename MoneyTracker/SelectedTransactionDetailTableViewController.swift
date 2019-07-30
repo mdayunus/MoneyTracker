@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class SelectedTransactionDetailTableViewController: UITableViewController {
     
@@ -76,7 +77,7 @@ class SelectedTransactionDetailTableViewController: UITableViewController {
         amountLabel.text = "\(selectedTransaction.debit.amount)"
         noteLabel.text = selectedTransaction.debit.purpose
         if selectedTransaction.creditOrDebit == true{
-          typeLabel.text = "cash"
+            typeLabel.text = "cash"
         }else if selectedTransaction.creditOrDebit == false{
             typeLabel.text = "cheque"
         }

@@ -83,13 +83,14 @@ class EditMemberViewController: UIViewController {
         guard let newEmail = memberNewEmailTextField.text, let newName = memberNewNameTextField.text else{return}
         
         if !newName.isEmpty{
-            selectedMemberInfo.setValue(newName, forKey: "name")
+            //            selectedMemberInfo.setValue(newName, forKey: "name")
+            selectedMemberInfo.name = newName
             selectedMemberInfo.lastEditedAt = Date()
         }
         
         if !newEmail.isEmpty{
             if newEmail.validateEmail(){
-                selectedMemberInfo.setValue(newEmail, forKey: "emailID")
+                selectedMemberInfo.setValue(newEmail, forKey: "emailID") 
                 selectedMemberInfo.lastEditedAt = Date()
             }
         }

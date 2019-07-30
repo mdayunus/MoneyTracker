@@ -19,5 +19,13 @@ public class Day: NSManagedObject {
         }
         return total
     }
+    
+    func getTotalCredit() -> Double{
+        var total: Double = 0
+        for transaction in transactions{
+            total = total + transaction.credit.amount
+        }
+        return total
+    }
 
 }

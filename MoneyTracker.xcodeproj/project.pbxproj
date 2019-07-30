@@ -25,6 +25,8 @@
 		945625C122CA0FDF00CB5CAF /* TransactionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 945625BF22CA0FDF00CB5CAF /* TransactionCell.xib */; };
 		9464203122D7099D00C75BCA /* SelectedTransactionDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9464203022D7099D00C75BCA /* SelectedTransactionDetailTableViewController.swift */; };
 		9464203322D723D700C75BCA /* EditMemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9464203222D723D700C75BCA /* EditMemberViewController.swift */; };
+		94E3D6CD22E1991B00FDBF92 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E3D6CB22E1991B00FDBF92 /* SectionHeaderView.swift */; };
+		94E3D6CE22E1991B00FDBF92 /* SectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94E3D6CC22E1991B00FDBF92 /* SectionHeaderView.xib */; };
 		94FE952C22C1016A009B3CF4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FE952B22C1016A009B3CF4 /* AppDelegate.swift */; };
 		94FE952E22C1016A009B3CF4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FE952D22C1016A009B3CF4 /* ViewController.swift */; };
 		94FE953122C1016A009B3CF4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94FE952F22C1016A009B3CF4 /* Main.storyboard */; };
@@ -82,6 +84,8 @@
 		945625BF22CA0FDF00CB5CAF /* TransactionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TransactionCell.xib; sourceTree = "<group>"; };
 		9464203022D7099D00C75BCA /* SelectedTransactionDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTransactionDetailTableViewController.swift; sourceTree = "<group>"; };
 		9464203222D723D700C75BCA /* EditMemberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMemberViewController.swift; sourceTree = "<group>"; };
+		94E3D6CB22E1991B00FDBF92 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
+		94E3D6CC22E1991B00FDBF92 /* SectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SectionHeaderView.xib; sourceTree = "<group>"; };
 		94FE952822C1016A009B3CF4 /* MoneyTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoneyTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94FE952B22C1016A009B3CF4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94FE952D22C1016A009B3CF4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -134,6 +138,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		94FBC9FF22EF2487000F4671 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		94FE951F22C1016A009B3CF4 = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +152,7 @@
 				94FE954222C10172009B3CF4 /* MoneyTrackerTests */,
 				94FE954D22C10172009B3CF4 /* MoneyTrackerUITests */,
 				94FE952922C1016A009B3CF4 /* Products */,
+				94FBC9FF22EF2487000F4671 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -172,6 +184,8 @@
 				943ABA4822DDF3EF0019C08E /* Member+CoreDataClass.swift */,
 				943ABA4922DDF3EF0019C08E /* Member+CoreDataProperties.swift */,
 				94FE952B22C1016A009B3CF4 /* AppDelegate.swift */,
+				94E3D6CB22E1991B00FDBF92 /* SectionHeaderView.swift */,
+				94E3D6CC22E1991B00FDBF92 /* SectionHeaderView.xib */,
 				945625BE22CA0FDF00CB5CAF /* TransactionCell.swift */,
 				945625BF22CA0FDF00CB5CAF /* TransactionCell.xib */,
 				94FE952D22C1016A009B3CF4 /* ViewController.swift */,
@@ -283,6 +297,11 @@
 				TargetAttributes = {
 					94FE952722C1016A009B3CF4 = {
 						CreatedOnToolsVersion = 10.2.1;
+						SystemCapabilities = {
+							com.apple.GameCenter.iOS = {
+								enabled = 0;
+							};
+						};
 					};
 					94FE953E22C10172009B3CF4 = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -321,6 +340,7 @@
 			files = (
 				94FE953922C10172009B3CF4 /* LaunchScreen.storyboard in Resources */,
 				94FE953622C10172009B3CF4 /* Assets.xcassets in Resources */,
+				94E3D6CE22E1991B00FDBF92 /* SectionHeaderView.xib in Resources */,
 				945625C122CA0FDF00CB5CAF /* TransactionCell.xib in Resources */,
 				94FE953122C1016A009B3CF4 /* Main.storyboard in Resources */,
 			);
@@ -358,6 +378,7 @@
 				94FE961222C49234009B3CF4 /* GroupMemberViewController.swift in Sources */,
 				943ABA5522DDF3EF0019C08E /* Day+CoreDataProperties.swift in Sources */,
 				94FE962622C635C3009B3CF4 /* SelectedMemberDetailViewController.swift in Sources */,
+				94E3D6CD22E1991B00FDBF92 /* SectionHeaderView.swift in Sources */,
 				943ABA5022DDF3EF0019C08E /* Credit+CoreDataClass.swift in Sources */,
 				943ABA5B22E052460019C08E /* MemberInfo+CoreDataProperties.swift in Sources */,
 				94FE952C22C1016A009B3CF4 /* AppDelegate.swift in Sources */,
@@ -559,7 +580,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = simpleApp.MoneyTracker;
+				PRODUCT_BUNDLE_IDENTIFIER = taptap.MoneyTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -577,7 +598,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = simpleApp.MoneyTracker;
+				PRODUCT_BUNDLE_IDENTIFIER = taptap.MoneyTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

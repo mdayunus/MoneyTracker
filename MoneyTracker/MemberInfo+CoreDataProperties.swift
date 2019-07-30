@@ -2,7 +2,7 @@
 //  MemberInfo+CoreDataProperties.swift
 //  MoneyTracker
 //
-//  Created by Mohammad Yunus on 18/07/19.
+//  Created by Mohammad Yunus on 30/07/19.
 //  Copyright © 2019 simpleApp. All rights reserved.
 //
 //

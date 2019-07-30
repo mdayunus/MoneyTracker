@@ -60,7 +60,7 @@ class GroupMemberViewController: UIViewController {
         let alertController = UIAlertController(title: "Options", message: "select to proceed", preferredStyle: .actionSheet)
         let createNewAction = UIAlertAction(title: "Add New", style: .default) { [weak self] (uiaa) in
             self?.gotoCreateNewMemberVC()
-            }
+        }
         alertController.addAction(createNewAction)
         let gotoAllMemberAction = UIAlertAction(title: "existing", style: .default) { [weak self] (uiaa) in
             self?.gotoAllExistingMembers()
@@ -68,18 +68,18 @@ class GroupMemberViewController: UIViewController {
         alertController.addAction(gotoAllMemberAction)
         alertController.addAction(UIAlertAction(title: "cancel", style: .cancel, handler: nil))
         present(alertController, animated: true, completion: nil)
-
+        
     }
     
     
     // view controller life cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         getMember()
         NotificationCenter.default.addObserver(self, selector: #selector(getMember), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
-
+    
 }
 
 extension GroupMemberViewController: UITableViewDelegate, UITableViewDataSource{

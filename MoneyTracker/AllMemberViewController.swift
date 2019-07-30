@@ -38,7 +38,7 @@ class AllMemberViewController: UIViewController {
         req.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
         frc = NSFetchedResultsController(fetchRequest: req, managedObjectContext: container!.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         do{
-                try frc?.performFetch()
+            try frc?.performFetch()
         }catch{
             fatalError()
         }
@@ -48,7 +48,7 @@ class AllMemberViewController: UIViewController {
     
     
     // view controller life cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "All Members"
@@ -65,7 +65,7 @@ extension AllMemberViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         memberCount = frc?.sections?[section].objects?.count ?? 0
         return frc?.sections?[section].objects?.count ?? 0
-        }
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = allMemberTableView.dequeueReusableCell(withIdentifier: Cells.allMemberCell, for: indexPath)

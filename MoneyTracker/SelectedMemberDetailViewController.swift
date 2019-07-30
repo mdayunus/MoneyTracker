@@ -13,17 +13,32 @@ class SelectedMemberDetailViewController: UIViewController {
     
     // properties
     
-    var selectedMemberInfo: MemberInfo?
+    var selectedMemberInfo: MemberInfo!
     var groupArr = [Group]()
-    var memberInfoArr = [Member]()
+    var memberArr = [Member]()
+    
+    var totalDebit: Double = 0
+    var totalCredit: Double = 0
     
     
     // outlets
     
-    @IBOutlet weak var backgroundView: UIView!{
+    @IBOutlet weak var containerView: UIView!{
         didSet{
-            backgroundView.layer.cornerRadius = backgroundView.frame.size.height / 2
-            backgroundView.layer.masksToBounds = true
+            containerView.layer.cornerRadius = 24
+            containerView.layer.masksToBounds = true
+        }
+    }
+    
+    @IBOutlet weak var totalCreditLabel: UILabel!{
+        didSet{
+            totalCreditLabel.text = "\(totalCredit)"
+        }
+    }
+    
+    @IBOutlet weak var totalDebitLabel: UILabel!{
+        didSet{
+            totalDebitLabel.text = "\(totalDebit)"
         }
     }
     
@@ -47,6 +62,16 @@ class SelectedMemberDetailViewController: UIViewController {
         memberImageView.image = UIImage(data: selectedMemberInfo!.imageData)
         memberName.text = selectedMemberInfo?.name
         memberEmail.text = selectedMemberInfo?.emailID
+        let memberDetail = selectedMemberInfo!.info
+        memberArr = Array(memberDetail)
+        groupArr = memberArr.map({$0.inGroup})
+        for member in memberArr{
+            totalDebit = totalDebit + member.getTotalDebit()
+            totalCredit = totalCredit + member.getTotalCredit()
+        }
+        totalDebitLabel.text = "\(totalDebit)"
+        totalCreditLabel.text = "\(totalCredit)"
+        
     }
     
     @objc func editprofile(){
@@ -62,15 +87,12 @@ class SelectedMemberDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewSetup()
-        let memberDetail = selectedMemberInfo!.info
-        memberInfoArr = Array(memberDetail)
-        groupArr = memberInfoArr.map({$0.inGroup})
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editprofile))
         NotificationCenter.default.addObserver(self, selector: #selector(viewSetup), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
     }
     
     
-
+    
 }
 
 extension SelectedMemberDetailViewController: UITableViewDelegate, UITableViewDataSource{
@@ -81,15 +103,14 @@ extension SelectedMemberDetailViewController: UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = memberGroupTableView.dequeueReusableCell(withIdentifier: Cells.selectedMemberGroupCell, for: indexPath)
         cell.textLabel?.text = groupArr[indexPath.row].name
-        cell.detailTextLabel?.text = "Joined on \(memberInfoArr[indexPath.row].joiningDate.DateInString)"
+        cell.detailTextLabel?.text = "Joined on \(memberArr[indexPath.row].joiningDate.DateInString)    \(memberArr[indexPath.row].getTotalDebit())"
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let dvc = storyboard?.instantiateViewController(withIdentifier: VCs.memberTransactionDetailInGroupVC) as? MemberTransactionDetailInGroupViewController{
             dvc.selectedGroup = groupArr[indexPath.row]
-            dvc.selectedMember = memberInfoArr[indexPath.row]
-            print(memberInfoArr[indexPath.row])
+            dvc.selectedMember = memberArr[indexPath.row]
             navigationController?.show(dvc, sender: self)
         }
     }

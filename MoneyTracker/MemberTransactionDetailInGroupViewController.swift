@@ -13,17 +13,21 @@ class MemberTransactionDetailInGroupViewController: UIViewController {
     
     // properties
     
-    var allTransactions: [Transaction]?
+    var allTransactions: [Transaction]!
     var selectedMember: Member!
     var selectedGroup: Group?
     
     
     // outlets
     
-    @IBOutlet weak var backgroundView: UIView!{
+    @IBOutlet weak var totalCreditLabel: UILabel!
+    
+    @IBOutlet weak var totalDebitLabel: UILabel!
+    
+    @IBOutlet weak var containerView: UIView!{
         didSet{
-            backgroundView.layer.cornerRadius = 20 //backgroundView.frame.height / 2
-            backgroundView.layer.masksToBounds = true
+            containerView.layer.cornerRadius = 14 //backgroundView.frame.height / 2
+            containerView.layer.masksToBounds = true
         }
     }
     
@@ -50,12 +54,25 @@ class MemberTransactionDetailInGroupViewController: UIViewController {
     @objc func getTransations(){
         let tset = selectedMember.transactions
         allTransactions = Array(tset)
+        allTransactions.sort { (ot, tt) -> Bool in
+            ot.madeAt > tt.madeAt
+        }
+        var totalCredit: Double = 0
+        for item in allTransactions!{
+            totalCredit = totalCredit + item.credit.amount
+        }
+        totalCreditLabel.text = "\(totalCredit)"
+        var totalDebit: Double = 0
+        for item in allTransactions!{
+            totalDebit = totalDebit + item.debit.amount
+        }
+        totalDebitLabel.text = "\(totalDebit)"
         MemberTransactionDetailTableView.reloadData()
     }
     
     
     // view controller life cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print(selectedMember.getTotalDebit())
@@ -82,8 +99,18 @@ extension MemberTransactionDetailInGroupViewController: UITableViewDelegate, UIT
         }else{
             cell?.cocImageView.image = #imageLiteral(resourceName: "check book")
         }
-        cell?.amount.text = "\(allTransactions![indexPath.row].debit.amount)"
-        cell?.reason.text = allTransactions?[indexPath.row].debit.purpose
+        
+        
+        
+        if allTransactions[indexPath.row].creditOrDebit == false{
+            cell?.amount.text = "\(allTransactions![indexPath.row].credit.amount)"
+            cell?.reason.text = allTransactions?[indexPath.row].credit.note
+        }else if allTransactions[indexPath.row].creditOrDebit == true{
+            cell?.amount.textColor = UIColor.red
+            cell?.amount.text = "\(allTransactions![indexPath.row].debit.amount)"
+            cell?.reason.text = allTransactions?[indexPath.row].debit.purpose
+        }
+        
         return cell!
     }
     
